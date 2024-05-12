@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="panghiero.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos Y="28"/>
+        <UsageCount Value="68"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="unit1.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="Unit1"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="32"/>
+        <CursorPos Y="64"/>
+        <UsageCount Value="68"/>
+      </Unit>
+      <Unit>
+        <Filename Value="uglyphdata.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="10"/>
+        <CursorPos X="31" Y="22"/>
+        <UsageCount Value="64"/>
+      </Unit>
+      <Unit>
+        <Filename Value="utools.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="337"/>
+        <CursorPos X="17" Y="363"/>
+        <UsageCount Value="64"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ucharacterinfo.pas"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="2" Y="15"/>
+        <UsageCount Value="64"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/lazarus/2.2.0/lcl/graphics.pp"/>
+        <UnitName Value="Graphics"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1457"/>
+        <CursorPos X="3" Y="1478"/>
+        <UsageCount Value="8"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/objpas/classes/classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="278"/>
+        <CursorPos X="3" Y="298"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/lazarus/2.2.0/lcl/interfaces/fpgui/fpguicrosshelpers.pas"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="15" Y="12"/>
+        <UsageCount Value="10"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="panghiero.lpr"/>
+        <Caret Line="21" Column="12"/>
+      </Position>
+      <Position>
+        <Filename Value="panghiero.lpr"/>
+        <Caret Line="8" Column="17"/>
+      </Position>
+      <Position>
+        <Filename Value="panghiero.lpr"/>
+        <Caret Line="29" Column="13"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="178" Column="7" TopLine="148"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="14" Column="32"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="387" Column="3" TopLine="351"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="26"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="388" Column="9" TopLine="89"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="352" Column="43" TopLine="334"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="385" Column="23" TopLine="371"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="14" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="167" Column="15" TopLine="146"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="398" Column="3" TopLine="373"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="14" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="167" TopLine="134"/>
+      </Position>
+      <Position>
+        <Filename Value="panghiero.lpr"/>
+        <Caret Line="28" Column="15"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="409" Column="102" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="385" Column="23" TopLine="376"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="14" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="185" Column="14" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="180" Column="23" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="182" Column="31" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="413" Column="19" TopLine="308"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="12" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="194" Column="5" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="174" Column="24" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="180" Column="27" TopLine="158"/>
+      </Position>
+      <Position>
+        <Filename Value="utools.pas"/>
+        <Caret Line="187" Column="30" TopLine="158"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
