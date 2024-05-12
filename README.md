@@ -1,2 +1,2 @@
 # panghiero
-Generates egyptian hieroglyphs (in png) from a source text in MdC format.
+Generates Egyptian hieroglyphs (in png) from a source text in MdC format.
