@@ -24,6 +24,9 @@ After you run `./panghiero`, the file `sample.png` is generated, containing the 
 ## Dependencies
 For this program to work, you need the individual glyphs as separate `.png` files. The provided file `glyphdata.csv`, containing aliases and dimensions for each glyph, is based on the images provided with the [WikiHiero Project](https://github.com/wikimedia/mediawiki-extensions-wikihiero). You just need to place the `img` folder from wikihiero, with all its contents, in the same location as the `panghiero` executable. (That is, all the glyph images are contained inside the `img` folder which must be placed in the same folder as the `panghiero` program.)
 
+## Source Code
+This project is written in Lazarus ([https://www.lazarus-ide.org/](https://www.lazarus-ide.org/)) with plain Pascal code. No external libraries or components are necessary. In theory, it can be compiled and run in any plataform Lazarus is available in (Linux, Windows, Mac OS X). 
+
 ## Limitations
 Currently, character grouping is quite limited: you can have at most two rows, and only one of these rows may have a horizontal group, which can consist of no more than two items. I.e., you can have `r:n`, but not `r:n:f`; `p*t:N1` is possible, as well as `N16:N23*Z1`; but `N16:N23*Z1:f` is out of the question.
 
