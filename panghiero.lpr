@@ -10,30 +10,17 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  { you can add units after this }
-  Classes,
-  uglyphdata, utools, ucharacterinfo;
+  Forms, ufrmmain, ufrmabout
+  { you can add units after this };
 
 {$R *.res}
 
-
-var
-  files:TStringList;
-  i,f:integer;
-  glyphs:TList;
-  glyph:TGlyphData;
-
-
 begin
-initdata;
-files:=listfiles;
-for f:=0 to files.count-1 do begin
-  processhierofile(files[f]);
-  end;
-//RequireDerivedFormResource:=True;
-//  Application.Scaled:=True;
-//  Application.Initialize;
-//  Application.CreateForm(TForm1, Form1);
-//  Application.Run;
+  RequireDerivedFormResource:=True;
+  Application.Scaled:=True;
+  Application.Initialize;
+  Application.CreateForm(TfrmMain, frmMain);
+  Application.CreateForm(TfrmAbout, frmAbout);
+  Application.Run;
 end.
 
