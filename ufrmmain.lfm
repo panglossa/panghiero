@@ -595,7 +595,9 @@ object frmMain: TfrmMain
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
-  Menu = MainMenu1
+  Menu = mnuMain
+  OnClose = FormClose
+  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnResize = FormResize
   LCLVersion = '2.2.0.4'
@@ -610,7 +612,7 @@ object frmMain: TfrmMain
     ClientWidth = 812
     TabOrder = 0
     OnClick = GroupBox1Click
-    object ComboBox1: TComboBox
+    object cboGardiner: TComboBox
       Left = 0
       Height = 27
       Top = 0
@@ -647,7 +649,7 @@ object frmMain: TfrmMain
         'Z - Strokes, signs derived from Hieratic, geometrical features'
         'Aa - Unclassified signs '
       )
-      OnChange = ComboBox1Change
+      OnChange = cboGardinerChange
       Style = csDropDownList
       TabOrder = 0
     end
@@ -662,7 +664,7 @@ object frmMain: TfrmMain
       ClientHeight = 78
       ClientWidth = 789
       TabOrder = 1
-      object FlowPanel1: TFlowPanel
+      object pnlGlyphs: TFlowPanel
         Left = 0
         Height = 1
         Top = 0
@@ -694,7 +696,7 @@ object frmMain: TfrmMain
     Color = clWhite
     ParentColor = False
     TabOrder = 1
-    object Memo1: TMemo
+    object txtMainEditor: TMemo
       Left = 3
       Height = 223
       Top = 3
@@ -706,7 +708,8 @@ object frmMain: TfrmMain
         'w b n:N5 r:a N5 m p*t:N1 ! '
         'O6 t:O1 D28 Z1 p:t H '
       )
-      OnExit = Memo1Exit
+      OnChange = txtMainEditorChange
+      OnExit = txtMainEditorExit
       ParentFont = False
       ScrollBars = ssVertical
       TabOrder = 0
@@ -717,7 +720,7 @@ object frmMain: TfrmMain
       Top = 3
       Width = 5
     end
-    object Image1: TImage
+    object imgMainDisplay: TImage
       Left = 231
       Height = 223
       Top = 3
@@ -893,93 +896,6 @@ object frmMain: TfrmMain
       }
     end
   end
-  object BitBtn3: TBitBtn
-    Left = 10
-    Height = 48
-    Top = 8
-    Width = 39
-    Anchors = []
-    AutoSize = True
-    Font.Height = -32
-    Glyph.Data = {
-      2A090000424D2A0900000000000042000000280000001D000000260000000100
-      100003000000E80800006400000064000000000000000000000000F80000E007
-      00001F0000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000000000000000FFFFFFFF
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000FFFFFFFFFFFF0000FFFF
-      FFFFFFFF0000000000000000FFFF000000000000000000000000000000000000
-      0000000000000000000000000000FFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFF
-      FFFF0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      00000000000000000000FFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
-      00000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF00000000
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000
-      FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000FFFFFFFF
-      FFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFF00000000FFFFFFFFFFFFFFFF
-      FFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFFFFFF0000
-      00000000000000000000FFFFFFFFFFFF00000000FFFFFFFFFFFFFFFFFFFFFFFF
-      0000FFFFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFFFFFFFFFF00000000
-      00000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFF
-      FFFFFFFFFFFFFFFF0000000000000000FFFFFFFF000000000000000000000000
-      000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFF
-      FFFFFFFF0000000000000000FFFF000000000000000000000000FFFFFFFFFFFF
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF
-      000000000000FFFFFFFF000000000000000000000000FFFFFFFFFFFFFFFF0000
-      00000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFF000000000000
-      000000000000000000000000FFFF00000000FFFFFFFFFFFFFFFFFFFF00000000
-      FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFF00000000000000000000
-      000000000000FFFFFFFF00000000FFFFFFFFFFFFFFFFFFFF00000000FFFFFFFF
-      FFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF000000000000000000000000
-      FFFFFFFFFFFF00000000FFFFFFFFFFFFFFFFFFFF00000000FFFFFFFFFFFF0000
-      000000000000FFFFFFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFFFFFF
-      FFFF00000000FFFFFFFFFFFFFFFF000000000000FFFF00000000000000000000
-      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
-      0000FFFFFFFFFFFF00000000000000000000000000000000000000000000FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF00000000FFFF
-      FFFFFFFF00000000000000000000000000000000000000000000FFFFFFFFFFFF
-      FFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFF00000000FFFFFFFF0000
-      00000000000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFF
-      FFFF0000000000000000000000000000FFFF00000000FFFF0000000000000000
-      000000000000FFFF00000000000000000000FFFFFFFFFFFFFFFFFFFF00000000
-      0000000000000000000000000000000000000000000000000000FFFF00000000
-      00000000000000000000FFFF0000FFFFFFFFFFFFFFFF00000000000000000000
-      0000000000000000000000000000000000000000FFFFFFFF0000000000000000
-      000000000000FFFF0000FFFFFFFFFFFF00000000000000000000FFFF00000000
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000
-      FFFFFFFF0000FFFFFFFF00000000000000000000FFFFFFFFFFFF000000000000
-      00000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000FFFFFFFF
-      0000FFFF0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      0000FFFFFFFFFFFFFFFFFFFF00000000000000000000FFFFFFFFFFFF0000FFFF
-      0000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000
-      FFFFFFFFFFFFFFFF0000000000000000FFFFFFFFFFFFFFFF0000000000000000
-      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000FFFF
-      FFFF0000000000000000FFFFFFFFFFFFFFFFFFFF0000000000000000FFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFF0000
-      00000000FFFFFFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000FFFF000000000000FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFF000000000000FFFFFFFF0000000000000000FFFFFFFF
-      FFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFF0000000000000000FFFF000000000000000000000000FFFFFFFFFFFF
-      FFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      00000000FFFFFFFFFFFF000000000000000000000000FFFFFFFFFFFFFFFFFFFF
-      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000
-      00000000000000000000FFFF000000000000FFFFFFFFFFFFFFFFFFFF0000FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000
-      000000000000FFFF000000000000FFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000FFFF
-      FFFF000000000000FFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000
-      0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000000000000000000000000000FFFF
-      FFFFFFFFFFFFFFFFFFFFFFFF0000
-    }
-    ParentFont = False
-    TabOrder = 2
-  end
   object FileListBox1: TFileListBox
     Left = 528
     Height = 385
@@ -987,102 +903,167 @@ object frmMain: TfrmMain
     Width = 296
     Directory = '/home/qvasimodo'
     ItemHeight = 25
-    TabOrder = 3
+    TabOrder = 2
     Visible = False
   end
-  object MainMenu1: TMainMenu
-    Left = 528
-    Top = 8
-    object MenuItem1: TMenuItem
+  object mnuMain: TMainMenu
+    Left = 360
+    Top = 56
+    object mnuFile: TMenuItem
       Caption = '&File'
-      object MenuItem2: TMenuItem
+      object mnuFileNew: TMenuItem
         Caption = '&New File'
         ShortCut = 16462
+        OnClick = mnuFileNewClick
       end
-      object MenuItem3: TMenuItem
+      object mnuFileOpen: TMenuItem
         Caption = '&Open Existing File'
         ShortCut = 16463
+        OnClick = mnuFileOpenClick
       end
-      object MenuItem4: TMenuItem
-        Caption = '&Save File'
+      object mnuFileSaveText: TMenuItem
+        Caption = '&Save Text File'
         ShortCut = 16467
+        OnClick = mnuFileSaveTextClick
       end
-      object MenuItem5: TMenuItem
-        Caption = 'Save File &As...'
+      object mnuFileSaveTextAs: TMenuItem
+        Caption = 'Save Text File &As...'
         ShortCut = 24659
+        OnClick = mnuFileSaveTextAsClick
+      end
+      object mnuFileSaveImageAs: TMenuItem
+        Caption = 'Save &Image File As...'
+        ShortCut = 24649
+        OnClick = mnuFileSaveImageAsClick
       end
       object Separator1: TMenuItem
         Caption = '-'
       end
-      object MenuItem6: TMenuItem
+      object mnuFileExit: TMenuItem
         Caption = 'E&xit'
         ShortCut = 32883
-        OnClick = MenuItem6Click
+        OnClick = mnuFileExitClick
       end
     end
-    object MenuItem12: TMenuItem
+    object mnuEdit: TMenuItem
       Caption = '&Edit'
-      object MenuItem13: TMenuItem
-        Caption = '&Copy'
-        ShortCut = 16451
+      object mnuEditCopy: TMenuItem
+        Action = actCopy
       end
-      object MenuItem14: TMenuItem
-        Caption = 'C&ut'
-        ShortCut = 16472
+      object mnuEditCut: TMenuItem
+        Action = actCut
       end
-      object MenuItem15: TMenuItem
-        Caption = '&Paste'
-        ShortCut = 16470
+      object mnuEditPaste: TMenuItem
+        Action = actPaste
       end
-      object MenuItem16: TMenuItem
-        Caption = '&Delete'
-        ShortCut = 46
+      object mnuEditDelete: TMenuItem
+        Action = actDelete
       end
     end
-    object MenuItem7: TMenuItem
+    object mnuView: TMenuItem
       Caption = 'View'
-      object MenuItem23: TMenuItem
+      object mnuViewHorizontal: TMenuItem
         Caption = '&Horizontal Layout'
+        Enabled = False
         ShortCut = 24648
       end
-      object MenuItem22: TMenuItem
+      object mnuViewVertical: TMenuItem
         Caption = '&Vertical Layout'
+        Enabled = False
         ShortCut = 24662
+      end
+      object Separator4: TMenuItem
+        Caption = '-'
+      end
+      object mnuViewGlyphs: TMenuItem
+        Caption = '&Glyphs List'
+        Checked = True
+        ShortCut = 24647
       end
       object Separator3: TMenuItem
         Caption = '-'
       end
-      object MenuItem20: TMenuItem
+      object mnuViewUpdate: TMenuItem
         Caption = 'Update View'
         ShortCut = 116
-        OnClick = MenuItem20Click
+        OnClick = mnuViewUpdateClick
       end
     end
-    object MenuItem10: TMenuItem
+    object mnuTools: TMenuItem
       Caption = '&Tools'
-      object MenuItem8: TMenuItem
-        Caption = '&Glyphs List'
-      end
-      object MenuItem9: TMenuItem
+      object mnuToolsGlyphs: TMenuItem
         Caption = 'Glyphs &Database'
       end
       object Separator2: TMenuItem
         Caption = '-'
       end
-      object MenuItem11: TMenuItem
+      object mnuToolsOptions: TMenuItem
         Caption = '&Options'
       end
     end
-    object MenuItem17: TMenuItem
+    object mnuHelp: TMenuItem
       Caption = '&Help'
-      object MenuItem18: TMenuItem
+      object mnuHelpTopics: TMenuItem
         Caption = '&Help Topics'
         ShortCut = 112
       end
-      object MenuItem19: TMenuItem
+      object mnuHelpAbout: TMenuItem
         Caption = '&About...'
-        OnClick = MenuItem19Click
+        OnClick = mnuHelpAboutClick
       end
+    end
+    object MenuItem1: TMenuItem
+      Caption = 'MenuItem1'
+    end
+  end
+  object OpenDialog1: TOpenDialog
+    DefaultExt = '.hiero'
+    Filter = 'Hieroglyphic Text (*.hiero)|*.hiero|Plain Text (*.txt)|*.txt'
+    FilterIndex = 0
+    Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
+    Left = 282
+    Top = 76
+  end
+  object SaveDialog1: TSaveDialog
+    DefaultExt = '.*.hiero'
+    Filter = 'Hieroglyphic Text (*.hiero)|*.hiero|Plain Text (*.txt)|*.txt'
+    FilterIndex = 0
+    Options = [ofOverwritePrompt, ofExtensionDifferent, ofEnableSizing, ofViewDetail]
+    Left = 399
+    Top = 94
+  end
+  object SavePictureDialog1: TSavePictureDialog
+    Title = 'Save image file as'
+    DefaultExt = '.png'
+    FileName = '/home/qvasimodo/2021-03-30_17-38-56.png'
+    FilterIndex = 2
+    InitialDir = '/home/qvasimodo/'
+    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    Left = 494
+    Top = 77
+  end
+  object ActionList1: TActionList
+    Left = 216
+    Top = 64
+    object actCopy: TAction
+      Caption = 'Copy Selected Text'
+      OnExecute = actCopyExecute
+      ShortCut = 16451
+    end
+    object actCut: TAction
+      Caption = 'Cut Selected Text'
+      OnExecute = actCutExecute
+      ShortCut = 16472
+    end
+    object actDelete: TAction
+      Caption = 'Delete Selected Text'
+      OnExecute = actDeleteExecute
+      ShortCut = 46
+    end
+    object actPaste: TAction
+      Caption = 'Paste Text from the Clipboard'
+      OnExecute = actPasteExecute
+      ShortCut = 16470
     end
   end
 end

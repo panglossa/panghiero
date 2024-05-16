@@ -5,60 +5,82 @@ unit ufrmmain;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls,
-  ExtCtrls, Buttons, FileCtrl, uglyphdata, ucharacterinfo;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, lcltype, Clipbrd,
+  ExtCtrls, Buttons, FileCtrl, ExtDlgs, ActnList, uglyphdata, ucharacterinfo;
 
 type
 
   { TfrmMain }
 
   TfrmMain = class(TForm)
-    BitBtn3: TBitBtn;
-    ComboBox1: TComboBox;
+    actCopy: TAction;
+    actCut: TAction;
+    actDelete: TAction;
+    actPaste: TAction;
+    ActionList1: TActionList;
+    cboGardiner: TComboBox;
     FileListBox1: TFileListBox;
-    FlowPanel1: TFlowPanel;
+    pnlGlyphs: TFlowPanel;
     GroupBox1: TGroupBox;
-    Image1: TImage;
+    imgMainDisplay: TImage;
     Image2: TImage;
-    MainMenu1: TMainMenu;
-    Memo1: TMemo;
     MenuItem1: TMenuItem;
-    MenuItem10: TMenuItem;
-    MenuItem11: TMenuItem;
-    MenuItem12: TMenuItem;
-    MenuItem13: TMenuItem;
-    MenuItem14: TMenuItem;
-    MenuItem15: TMenuItem;
-    MenuItem16: TMenuItem;
-    MenuItem17: TMenuItem;
-    MenuItem18: TMenuItem;
-    MenuItem19: TMenuItem;
-    MenuItem2: TMenuItem;
-    MenuItem20: TMenuItem;
+    mnuMain: TMainMenu;
+    txtMainEditor: TMemo;
+    mnuFile: TMenuItem;
+    mnuTools: TMenuItem;
+    mnuToolsOptions: TMenuItem;
+    mnuEdit: TMenuItem;
+    mnuEditCopy: TMenuItem;
+    mnuEditCut: TMenuItem;
+    mnuEditPaste: TMenuItem;
+    mnuEditDelete: TMenuItem;
+    mnuHelp: TMenuItem;
+    mnuHelpTopics: TMenuItem;
+    mnuHelpAbout: TMenuItem;
+    mnuFileNew: TMenuItem;
+    mnuViewUpdate: TMenuItem;
+    mnuFileSaveImageAs: TMenuItem;
+    mnuViewGlyphs: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    SaveDialog1: TSaveDialog;
+    SavePictureDialog1: TSavePictureDialog;
+    Separator4: TMenuItem;
     ScrollBox1: TScrollBox;
     Separator3: TMenuItem;
-    MenuItem22: TMenuItem;
-    MenuItem23: TMenuItem;
+    mnuViewVertical: TMenuItem;
+    mnuViewHorizontal: TMenuItem;
     Separator2: TMenuItem;
-    MenuItem3: TMenuItem;
-    MenuItem4: TMenuItem;
-    MenuItem5: TMenuItem;
-    MenuItem6: TMenuItem;
-    MenuItem7: TMenuItem;
-    MenuItem8: TMenuItem;
-    MenuItem9: TMenuItem;
+    mnuFileOpen: TMenuItem;
+    mnuFileSaveText: TMenuItem;
+    mnuFileSaveTextAs: TMenuItem;
+    mnuFileExit: TMenuItem;
+    mnuView: TMenuItem;
+    mnuToolsGlyphs: TMenuItem;
     Panel1: TPanel;
     Separator1: TMenuItem;
     Splitter1: TSplitter;
-    procedure ComboBox1Change(Sender: TObject);
+    procedure actCopyExecute(Sender: TObject);
+    procedure actCutExecute(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actPasteExecute(Sender: TObject);
+    procedure cboGardinerChange(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure GroupBox1Click(Sender: TObject);
     procedure Image2Click(Sender: TObject);
-    procedure Memo1Exit(Sender: TObject);
-    procedure MenuItem19Click(Sender: TObject);
-    procedure MenuItem20Click(Sender: TObject);
-    procedure MenuItem6Click(Sender: TObject);
+    procedure mnuFileSaveImageAsClick(Sender: TObject);
+    procedure mnuFileSaveTextAsClick(Sender: TObject);
+    procedure mnuFileSaveTextClick(Sender: TObject);
+    procedure txtMainEditorChange(Sender: TObject);
+    procedure txtMainEditorExit(Sender: TObject);
+    procedure mnuHelpAboutClick(Sender: TObject);
+    procedure mnuViewUpdateClick(Sender: TObject);
+    procedure mnuFileNewClick(Sender: TObject);
+    procedure mnuFileOpenClick(Sender: TObject);
+    procedure mnuFileExitClick(Sender: TObject);
     procedure updateview;
     procedure glyphbuttonClick(Sender: TObject);
     procedure processhierofile(afilename:string);
@@ -77,6 +99,8 @@ var
   glyphs:TList;
   glyph:TGlyphData;
   config:TStringList;
+  unsaved:boolean;
+  currentfilename:string;
 
 implementation
 uses
@@ -85,22 +109,22 @@ uses
 
 { TfrmMain }
 
-procedure TfrmMain.MenuItem6Click(Sender: TObject);
+procedure TfrmMain.mnuFileExitClick(Sender: TObject);
 begin
 close;
 end;
 
 procedure TfrmMain.updateview;
 begin
-memo1.lines.SaveToFile('default.txt');
+txtMainEditor.lines.SaveToFile('default.txt');
 processhierofile('');
-image1.Picture.SaveToFile('default.png');
+imgMainDisplay.Picture.SaveToFile('default.png');
 end;
 
 procedure TfrmMain.glyphbuttonClick(Sender: TObject);
 begin
-memo1.SelText:=' ' + (Sender as TImage).Hint + ' ';
-memo1.SetFocus;
+txtMainEditor.SelText:=' ' + (Sender as TImage).Hint + ' ';
+txtMainEditor.SetFocus;
 end;
 
 procedure TfrmMain.GroupBox1Click(Sender: TObject);
@@ -113,19 +137,139 @@ begin
 
 end;
 
-procedure TfrmMain.Memo1Exit(Sender: TObject);
+procedure TfrmMain.mnuFileSaveImageAsClick(Sender: TObject);
+begin
+SavePictureDialog1.FileName:=StringReplace(currentfilename, '.hiero', '.png', [rfReplaceAll]);
+if SavePictureDialog1.execute then begin
+   imgMainDisplay.Picture.SaveToFile(SavePictureDialog1.FileName);
+   end;
+
+end;
+
+procedure TfrmMain.mnuFileSaveTextAsClick(Sender: TObject);
+begin
+SaveDialog1.FileName:=currentfilename;
+if SaveDialog1.execute then begin
+   currentfilename:=SaveDialog1.FileName;
+   txtMainEditor.Lines.SaveToFile(SaveDialog1.FileName);
+   unsaved:=false;
+   end;
+end;
+
+procedure TfrmMain.mnuFileSaveTextClick(Sender: TObject);
+begin
+if currentfilename=''  then begin
+   if SaveDialog1.execute then begin
+     currentfilename:=SaveDialog1.FileName;
+     txtMainEditor.Lines.SaveToFile(SaveDialog1.FileName);
+     unsaved:=false;
+     end;
+   end else begin
+   txtMainEditor.Lines.SaveToFile(currentfilename);
+   unsaved:=false;
+   end;
+end;
+
+procedure TfrmMain.txtMainEditorChange(Sender: TObject);
+begin
+unsaved:=true;
+end;
+
+procedure TfrmMain.txtMainEditorExit(Sender: TObject);
 begin
 updateview;
 end;
 
-procedure TfrmMain.MenuItem19Click(Sender: TObject);
+procedure TfrmMain.mnuHelpAboutClick(Sender: TObject);
 begin
 frmAbout.showmodal;
 end;
 
-procedure TfrmMain.MenuItem20Click(Sender: TObject);
+procedure TfrmMain.mnuViewUpdateClick(Sender: TObject);
 begin
 updateview;
+end;
+
+procedure TfrmMain.mnuFileNewClick(Sender: TObject);
+var
+  ok:boolean;
+  answer:integer;
+
+begin
+ok:=true;
+
+if unsaved then begin
+  ok:=false;
+  SaveDialog1.FileName:=currentfilename;
+  case application.MessageBox('The current file has been modified. Do you want to save it before switching to a new file?', 'Unsaved file', MB_YESNOCANCEL + MB_ICONWARNING) of
+       IDYES: begin
+         if currentfilename=''  then begin
+           if SaveDialog1.execute then begin
+             currentfilename:=SaveDialog1.FileName;
+             txtMainEditor.Lines.SaveToFile(SaveDialog1.FileName);
+             ok:=true;
+             end;
+           end else begin
+           txtMainEditor.Lines.SaveToFile(currentfilename);
+           ok:=true;
+           end;
+         end;
+       IDNO: begin
+         ok:=true;
+         end;
+       IDCANCEL: begin
+         end;
+       end;
+  end;
+
+if ok then begin
+  txtMainEditor.Lines.Clear;
+  imgMainDisplay.Picture.Clear;
+  unsaved:=false;
+  end;
+end;
+
+procedure TfrmMain.mnuFileOpenClick(Sender: TObject);
+var
+  ok:boolean;
+  answer:integer;
+
+begin   
+ok:=true;
+
+if unsaved then begin
+  ok:=false;
+  SaveDialog1.FileName:=currentfilename;
+  case application.MessageBox('The current file has been modified. Do you want to save it before opening another file?', 'Unsaved file', MB_YESNOCANCEL + MB_ICONWARNING) of
+       IDYES: begin
+         if currentfilename=''  then begin
+           if SaveDialog1.execute then begin
+             showmessage(SaveDialog1.FileName);
+             currentfilename:=SaveDialog1.FileName;
+             txtMainEditor.Lines.SaveToFile(SaveDialog1.FileName);
+             ok:=true;
+             end;
+           end else begin
+           txtMainEditor.Lines.SaveToFile(currentfilename);
+           ok:=true;
+           end;
+         end;
+       IDNO: begin
+         ok:=true;
+         end;
+       IDCANCEL: begin
+         end;
+       end;
+  end;
+
+if ok then begin
+  if OpenDialog1.Execute then begin
+    txtMainEditor.Lines.LoadFromFile(OpenDialog1.FileName);
+    processhierofile(OpenDialog1.FileName);
+    unsaved:=false;
+    end;
+  end;
+
 end;
 
 procedure TfrmMain.FormCreate(Sender: TObject);
@@ -134,29 +278,31 @@ var
 
 begin
 initdata;
+unsaved:=false;
 if (paramcount()>0) then begin
   for i:=1 to paramcount() do begin
     processhierofile(ParamStr(i));
     end;
   Application.Terminate;
   end else begin
+  currentfilename:='';
   panel1.align:=alClient;
   if (fileexists('default.txt')) then begin
-    memo1.lines.loadfromfile('default.txt');
+    txtMainEditor.lines.loadfromfile('default.txt');
     end;
   if (fileexists('default.png')) then begin
-    image1.picture.loadfromfile('default.png');
+    imgMainDisplay.picture.loadfromfile('default.png');
     end;
   end;
 end;
 
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
-memo1.Width:=panel1.Width div 2;
+txtMainEditor.Width:=panel1.Width div 2;
 
 end;
 
-procedure TfrmMain.ComboBox1Change(Sender: TObject);
+procedure TfrmMain.cboGardinerChange(Sender: TObject);
 var
   prefix:string;
   i:integer;
@@ -167,7 +313,7 @@ var
 
 begin
 prefix:='A';
-case ComboBox1.ItemIndex of
+case cboGardiner.ItemIndex of
      0: prefix := 'A'; //Man and his occupations
      1: prefix := 'B'; //Woman and her occupations
      2: prefix := 'C'; //Anthropomorphic deities
@@ -199,8 +345,8 @@ case ComboBox1.ItemIndex of
      end;
 FileListBox1.Mask:='hiero_' + prefix + '*.png';
 FileListBox1.Directory:=IncludeTrailingBackslash(extractfiledir(paramstr(0))) + 'img';
-for i:=FlowPanel1.ComponentCount-1 downto 0 do begin
-    FlowPanel1.Controls[i].Destroy;
+for i:=pnlGlyphs.ComponentCount-1 downto 0 do begin
+    pnlGlyphs.Controls[i].Destroy;
     end;
 for i:=0 to FileListBox1.Items.count -1 do begin
   bl:=StringReplace(FileListBox1.Items[i], 'hiero_', '', [rfReplaceAll]);
@@ -214,16 +360,72 @@ for i:=0 to FileListBox1.Items.count -1 do begin
       end;
     end;
   if ok then begin
-    btn:=TImage.Create(FlowPanel1);
+    btn:=TImage.Create(pnlGlyphs);
     btn.Picture.LoadFromFile(IncludeTrailingBackslash(extractfiledir(paramstr(0))) + IncludeTrailingBackslash('img') + FileListBox1.Items[i]);
     btn.Hint:=bl;
     btn.ShowHint:=true;
     btn.OnClick:=@glyphbuttonClick;
     btn.AutoSize:=true;
-    btn.Parent:=FlowPanel1;
+    btn.Parent:=pnlGlyphs;
     end;
   end;
-memo1.SetFocus;
+txtMainEditor.SetFocus;
+end;
+
+procedure TfrmMain.actCopyExecute(Sender: TObject);
+begin
+txtMainEditor.CopyToClipboard;
+//Clipboard.AsText:=txtMainEditor.SelText;
+end;
+
+procedure TfrmMain.actCutExecute(Sender: TObject);
+begin
+txtMainEditor.CutToClipboard;
+end;
+
+procedure TfrmMain.actDeleteExecute(Sender: TObject);
+begin
+txtMainEditor.SelText:='';
+end;
+
+procedure TfrmMain.actPasteExecute(Sender: TObject);
+begin
+txtMainEditor.PasteFromClipboard;
+end;
+
+procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+
+end;
+
+procedure TfrmMain.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+begin
+CanClose:=true;
+if unsaved then begin
+  CanClose:=false;
+  SaveDialog1.FileName:=currentfilename;
+  case application.MessageBox('The current file has been modified. Do you want to save it before closing the program?', 'Unsaved file', MB_YESNOCANCEL + MB_ICONWARNING) of
+       IDYES: begin
+         if currentfilename=''  then begin
+           if SaveDialog1.execute then begin
+             currentfilename:=SaveDialog1.FileName;
+             txtMainEditor.Lines.SaveToFile(SaveDialog1.FileName);
+             CanClose:=true;
+             end;
+           end else begin
+           txtMainEditor.Lines.SaveToFile(currentfilename);
+           CanClose:=true;
+           end;
+         end;
+       IDNO: begin
+         CanClose:=true;
+         end;
+       IDCANCEL: begin
+         CanClose:=false;
+         end;
+       end;
+  end;
+
 end;
 
 procedure TfrmMain.processhierofile(afilename:string);
@@ -248,7 +450,7 @@ if (FileExists(afilename)) then begin
     lines.LoadFromFile(afilename);
     end;
   end else begin
-  lines.Text:=Memo1.text;
+  lines.Text:=txtMainEditor.text;
   end;
 src:='';
 for i:=0 to lines.count-1 do begin
@@ -593,7 +795,7 @@ if (FileExists(afilename)) then begin
     finalimage.SaveToFile(StringReplace(afilename, '.hiero', '.png', [rfReplaceAll]));
     end;
   end;
-image1.Picture.LoadFromFile('tmp.png');
+imgMainDisplay.Picture.LoadFromFile('tmp.png');
 //writeln('Generated image file ' + StringReplace(filename, '.hiero', '.png', [rfReplaceAll]));
 //writeln('======================');
 //writeln('');
