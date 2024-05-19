@@ -1,23 +1,16 @@
 # Panghiero ![PangHiero Icon](https://github.com/panglossa/panghiero/blob/main/panghieroicon64.png) 
 ## Overview
 
+**Panghiero** is a very simple editor that generates Egyptian hieroglyphs (in png) from a source text in [MdC format](https://en.wikipedia.org/wiki/Manuel_de_Codage).
 
-Generates Egyptian hieroglyphs (in png) from a source text in MdC format.
 
-This is a very simple command line tool that converts source texts in MdC format to image files containing Egyptian hieroglyphic text.
-
-Source files must: 
-- be in MdC (Manuel de Codage) format ([MdC at Wikipedia](https://en.wikipedia.org/wiki/Manuel_de_Codage));
-- have the file extension `.hiero`
-- be placed in the same folder as the program
-
-For example, consider the sample file (`sample.hiero`). It contains the following text:
+For example, if you type in the following text:
 
     
     w b n:N5 r:a N5 m p*t:N1
 
 
-After you run `./panghiero`, the file `sample.png` is generated, containing the corresponding hieroglyphic text:
+You will get an image, containing the corresponding hieroglyphic text:
 
 ![Sample Hieroglyphic Text](https://github.com/panglossa/panghiero/blob/main/sample.png)
 
@@ -30,7 +23,7 @@ This project is written in Lazarus ([https://www.lazarus-ide.org/](https://www.l
 ## Limitations
 Currently, character grouping is quite limited: you can have at most two rows, and only one of these rows may have a horizontal group, which can consist of no more than two items. I.e., you can have `r:n`, but not `r:n:f`; `p*t:N1` is possible, as well as `N16:N23*Z1`; but `N16:N23*Z1:f` is out of the question.
 
-Also, the grouping algorithm is still quite crude, and sometimes doesn't give very good results, especially with horizontal grouping. It certainly needs a lot of improvement. 
+Also, the grouping algorithm is still a bit crude, and sometimes doesn't give very good results, especially with horizontal grouping. It certainly needs a lot of improvement. 
 
 ## Conclusion
 This is a very basic tool, which started as a weekend idea for a LaTeX extension using PGF/TikZ. It was promising, but quite limited, and didn't work for creating ebooks. It then turned into a `.php` script which grew into a larger project until I decided to "transfer" it to `lazarus`. 
