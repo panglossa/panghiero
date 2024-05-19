@@ -11,7 +11,7 @@ type
 { TGlyphData }
 
  { TCharacterInfo }
-
+//represents a character as part of a text
  TCharacterInfo = class(TObject)
   public
   name: string;

@@ -10,7 +10,7 @@ uses
 type
 
 { TGlyphData }
-
+//represents data from the database relating to glyphs in general
  TGlyphData = class(TObject)
   public
   name: string;

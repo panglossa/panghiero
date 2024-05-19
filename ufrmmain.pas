@@ -6,7 +6,10 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, lcltype, Clipbrd,
-  ExtCtrls, Buttons, FileCtrl, ExtDlgs, ActnList, uglyphdata, ucharacterinfo;
+  ExtCtrls, Buttons, FileCtrl, ExtDlgs, IniFiles,
+  ActnList,
+  uglyphdata, ucharacterinfo,
+  utools;
 
 type
 
@@ -15,7 +18,6 @@ type
   TfrmMain = class(TForm)
     actCopy: TAction;
     actCut: TAction;
-    actDelete: TAction;
     actPaste: TAction;
     ActionList1: TActionList;
     cboGardiner: TComboBox;
@@ -24,7 +26,6 @@ type
     GroupBox1: TGroupBox;
     imgMainDisplay: TImage;
     Image2: TImage;
-    MenuItem1: TMenuItem;
     mnuMain: TMainMenu;
     txtMainEditor: TMemo;
     mnuFile: TMenuItem;
@@ -34,7 +35,6 @@ type
     mnuEditCopy: TMenuItem;
     mnuEditCut: TMenuItem;
     mnuEditPaste: TMenuItem;
-    mnuEditDelete: TMenuItem;
     mnuHelp: TMenuItem;
     mnuHelpTopics: TMenuItem;
     mnuHelpAbout: TMenuItem;
@@ -69,11 +69,14 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure GroupBox1Click(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure mnuFileSaveImageAsClick(Sender: TObject);
     procedure mnuFileSaveTextAsClick(Sender: TObject);
     procedure mnuFileSaveTextClick(Sender: TObject);
+    procedure mnuToolsGlyphsClick(Sender: TObject);
+    procedure mnuToolsOptionsClick(Sender: TObject);
     procedure txtMainEditorChange(Sender: TObject);
     procedure txtMainEditorExit(Sender: TObject);
     procedure mnuHelpAboutClick(Sender: TObject);
@@ -104,7 +107,7 @@ var
 
 implementation
 uses
-  ufrmabout;
+  ufrmabout, ufrmglyphs, ufrmoptions;
 {$R *.lfm}
 
 { TfrmMain }
@@ -115,10 +118,19 @@ close;
 end;
 
 procedure TfrmMain.updateview;
+var
+  bmp:TBitMap;
 begin
+screen.Cursor:=crHourGlass;
 txtMainEditor.lines.SaveToFile('default.txt');
-processhierofile('');
+//processhierofile('');
+bmp:=texttoimage(txtMainEditor.Text);
+//imgMainDisplay.Canvas.CopyRect(bmp.canvas.ClipRect, bmp.canvas, bmp.canvas.ClipRect);
+//imgMainDisplay.Picture.assign(bmp);// loadfromfile('tmp.bmp');
+imgMainDisplay.Picture.loadfromfile('tmp.bmp');
 imgMainDisplay.Picture.SaveToFile('default.png');
+screen.Cursor:=crDefault;
+txtMainEditor.SetFocus;
 end;
 
 procedure TfrmMain.glyphbuttonClick(Sender: TObject);
@@ -167,6 +179,31 @@ if currentfilename=''  then begin
    end else begin
    txtMainEditor.Lines.SaveToFile(currentfilename);
    unsaved:=false;
+   end;
+end;
+
+procedure TfrmMain.mnuToolsGlyphsClick(Sender: TObject);
+begin
+frmGlyphs.show;
+end;
+
+procedure TfrmMain.mnuToolsOptionsClick(Sender: TObject);
+begin
+frmOptions.showmodal;
+ini:=TIniFile.Create(IncludeTrailingBackslash(ExtractFilePath(ParamStr(0))) + 'panghiero.ini');
+if frmOptions.ModalResult = mrOK then begin
+   screen.cursor:=crHourGlass;
+   ini.writeString('Editor Font', 'Name', frmOptions.FontDialog1.font.Name);
+   ini.writeInteger('Editor Font', 'Size', frmOptions.FontDialog1.font.Size);
+   ini.writeInteger('Graphic Options', 'Image Border', frmOptions.spnTextBorder.Value);
+   ini.writeInteger('Graphic Options', 'Line Height', frmOptions.spnTextLineHeight.Value);
+   ini.writeInteger('Graphic Options', 'Maximum Text Width', frmOptions.spnTextMaxWidth.Value);
+   ini.writeInteger('Graphic Options', 'Maximum Text Height', frmOptions.spnTextMaxHeight.Value);
+   ini.writeInteger('Graphic Options', 'Character Spacing', frmOptions.spnTextSpace.Value);
+   ini.writeInteger('Graphic Options', 'Interlinear Space', frmOptions.spnTextLineSpace.Value);
+   txtMainEditor.font.Name:=ini.ReadString('Editor Font', 'Name', 'Aegyptus');
+   txtMainEditor.font.Size:=ini.ReadInteger('Editor Font', 'Size', 20);
+   screen.cursor:=crDefault;
    end;
 end;
 
@@ -265,7 +302,9 @@ if unsaved then begin
 if ok then begin
   if OpenDialog1.Execute then begin
     txtMainEditor.Lines.LoadFromFile(OpenDialog1.FileName);
-    processhierofile(OpenDialog1.FileName);
+    //processhierofile(OpenDialog1.FileName);
+    texttoimage(txtMainEditor.Text);
+    imgMainDisplay.Picture.LoadFromFile('tmp.bmp');
     unsaved:=false;
     end;
   end;
@@ -275,13 +314,18 @@ end;
 procedure TfrmMain.FormCreate(Sender: TObject);
 var
   i:integer;
+  src:TStringList;
 
 begin
 initdata;
 unsaved:=false;
+ini:=TIniFile.Create(IncludeTrailingBackslash(ExtractFilePath(ParamStr(0))) + 'panghiero.ini');
 if (paramcount()>0) then begin
   for i:=1 to paramcount() do begin
-    processhierofile(ParamStr(i));
+    src:=TStringList.create;
+    src.LoadFromFile(paramstr(i));
+    texttoimage(txtMainEditor.Text).SaveToFile(StringReplace(paramstr(i), '.hiero', '.png', [rfReplaceAll]));
+    //processhierofile(ParamStr(i));
     end;
   Application.Terminate;
   end else begin
@@ -299,6 +343,13 @@ end;
 procedure TfrmMain.FormResize(Sender: TObject);
 begin
 txtMainEditor.Width:=panel1.Width div 2;
+
+end;
+
+procedure TfrmMain.FormShow(Sender: TObject);
+begin
+txtMainEditor.font.Name:=ini.ReadString('Editor Font', 'Name', 'Aegyptus');
+txtMainEditor.font.Size:=ini.ReadInteger('Editor Font', 'Size', 20);
 
 end;
 

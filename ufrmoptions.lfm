@@ -1,11 +1,12 @@
-object frmMain: TfrmMain
-  Left = 416
-  Height = 550
-  Top = 286
-  Width = 816
-  Caption = 'PangHiero v. 0.1'
-  ClientHeight = 521
-  ClientWidth = 816
+object frmOptions: TfrmOptions
+  Left = 585
+  Height = 291
+  Top = 280
+  Width = 440
+  BorderStyle = bsSizeToolWin
+  Caption = 'Options'
+  ClientHeight = 291
+  ClientWidth = 440
   Icon.Data = {
     3E49000000000100010046400000010020002849000016000000280000004600
     0000800000000100200000000000004600006400000064000000000000000000
@@ -595,469 +596,283 @@ object frmMain: TfrmMain
     0000000000000000000000000000000000000000000000000000000000000000
     0000
   }
-  Menu = mnuMain
-  OnClose = FormClose
-  OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
-  OnResize = FormResize
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object GroupBox1: TGroupBox
     Left = 0
-    Height = 130
+    Height = 50
     Top = 0
-    Width = 816
+    Width = 440
     Align = alTop
-    Caption = 'Hieroglyphs'
-    ClientHeight = 109
-    ClientWidth = 812
+    Caption = 'Editor Font'
+    ClientHeight = 29
+    ClientWidth = 436
     TabOrder = 0
-    OnClick = GroupBox1Click
-    object cboGardiner: TComboBox
+    object Label1: TLabel
       Left = 0
-      Height = 27
+      Height = 29
       Top = 0
-      Width = 812
-      Align = alTop
-      ItemHeight = 0
-      Items.Strings = (
-        'A - Man and his occupations'
-        'B - Woman and her occupations'
-        'C - Anthropomorphic deities'
-        'D - Parts of the human body'
-        'E - Mammals'
-        'F - Parts of mammals'
-        'G - Birds'
-        'H - Parts of birds'
-        'I - Amphibious animals, reptiles, etc.'
-        'K - Fishes and parts of fishes'
-        'L - Invertebrata and lesser animals'
-        'M - Trees and plants'
-        'N - Sky, earth, water'
-        'NU - Upper nile'
-        'NL - Lower nile'
-        'O - Buildings, parts of buildings, etc.'
-        'P - Ships and parts of ships'
-        'Q - Domestic and funerary furniture'
-        'R - Temple furniture and sacred emblems'
-        'S - Crowns, dress, staves, etc.'
-        'T - Warfare, hunting, butchery'
-        'U - Agriculture, crafts, and professions'
-        'V - Rope, fibre, baskets, bags, etc.'
-        'W - Vessels of stone and earthenware'
-        'X - Loaves and cakes'
-        'Y - Writings, games, music'
-        'Z - Strokes, signs derived from Hieratic, geometrical features'
-        'Aa - Unclassified signs '
-      )
-      OnChange = cboGardinerChange
-      Style = csDropDownList
-      TabOrder = 0
-    end
-    object ScrollBox1: TScrollBox
-      Left = 0
-      Height = 82
-      Top = 27
-      Width = 812
-      HorzScrollBar.Page = 182
-      VertScrollBar.Page = 78
+      Width = 414
       Align = alClient
-      ClientHeight = 78
-      ClientWidth = 789
-      TabOrder = 1
-      object pnlGlyphs: TFlowPanel
-        Left = 0
-        Height = 1
-        Top = 0
-        Width = 789
-        Align = alTop
-        AutoSize = True
-        ControlList = <>
-        FlowLayout = tlTop
-        FlowStyle = fsLeftRightTopBottom
-        TabOrder = 0
-      end
-      object Image2: TImage
-        Left = 92
-        Height = 90
-        Top = 17
-        Width = 90
-        OnClick = Image2Click
-      end
-    end
-  end
-  object Panel1: TPanel
-    Left = 104
-    Height = 229
-    Top = 155
-    Width = 419
-    BorderWidth = 2
-    ClientHeight = 229
-    ClientWidth = 419
-    Color = clWhite
-    ParentColor = False
-    TabOrder = 1
-    object txtMainEditor: TMemo
-      Left = 3
-      Height = 223
-      Top = 3
-      Width = 223
-      Align = alLeft
+      Caption = 'Aegyptus - 20pt'
       Font.Height = -27
       Font.Name = 'Aegyptus'
-      Lines.Strings = (
-        'w b n:N5 r:a N5 m p*t:N1 ! '
-        'O6 t:O1 D28 Z1 p:t H '
-      )
-      OnChange = txtMainEditorChange
-      OnExit = txtMainEditorExit
       ParentFont = False
-      ScrollBars = ssVertical
+    end
+    object Button1: TButton
+      Left = 414
+      Height = 29
+      Top = 0
+      Width = 22
+      Align = alRight
+      AutoSize = True
+      Caption = '...'
+      OnClick = Button1Click
       TabOrder = 0
     end
-    object Splitter1: TSplitter
-      Left = 226
-      Height = 223
-      Top = 3
-      Width = 5
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Height = 214
+    Top = 50
+    Width = 440
+    Align = alTop
+    AutoSize = True
+    Caption = 'Hieroglyphic Text Options'
+    ClientHeight = 193
+    ClientWidth = 436
+    TabOrder = 1
+    object Panel1: TPanel
+      Left = 0
+      Height = 29
+      Top = 29
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 0
+      object Label2: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Base Line Height [config:lineheight]: '
+        Layout = tlCenter
+      end
+      object spnTextLineHeight: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 100
+        TabOrder = 0
+      end
     end
-    object imgMainDisplay: TImage
-      Left = 231
-      Height = 223
-      Top = 3
-      Width = 185
-      Align = alClient
-      Picture.Data = {
-        1754506F727461626C654E6574776F726B47726170686963A114000089504E47
-        0D0A1A0A0000000D49484452000000FA0000002608020000006272113E000014
-        6849444154789CED9D795815E5DBC735BA704934083544C57003098480CB1D31
-        050C5C40912437DCE09548728B1697248A30D1B4D248FC5D8A1789A418EE2C21
-        1996066E049925F043450435A332B3CDF7F39EE762DED339709873CE8052DE7F
-        E0CC33F7CC3CCBF7F9DEDFFB9999638B3B5AD6E2EFA6ED70DFFE31F6FBEFBF7F
-        FCF1C74F6B596868686E6EEE1F7FFCA1ECED04A25AB66CD9A22ED370FEEDB7DF
-        0E1F3E1C1E1EEEECEC6C626282C3030F3CE0E8E8386FDEBCCCCCCCDBB76F1B52
-        01ED0A3DF6D863FF536B0F3FFC709321FECF3FFF5CBC78B1B9B9799B366D1E7A
-        E8A1471E79243131B1696EFDAFB5F2F2F2D9B367D3D5DDBB77EF516B3636369D
-        3A751A376E5C4D4D8DB2B7034B8C6C0F2D6BD7AE9D06CCC07A7E7EFEA851A3AC
-        ADADD5EBC636251E1E1EC78E1D3300F1FF7F8FCF3FFF1CA07357502E15B24D89
-        8B8B8B318D94697009BCD2A54B973163C64C9E3C990D7F7FFF26B8EFBFD980D4
-        800103DCDCDC626262DEABB5B8B8B8C18307BBBBBB7FF5D557CADE0E2CF9FAFA
-        969696FE57CDCACACA264C98A00E7762CE175F7CE1E7E7D7B973E73973E62427
-        27979494E0C989A9A9A973E7CEB5B2B262267CFAE9A7CC0AFD2A20FE01D022A0
-        48C8B6B7B7171BA22A4C0625DAABCB80FBC48913870E1D4A083B7FFEBCABAB2B
-        4D6AEC9BFECB2D3D3D9D588A3C282E2E2E2A2AAAA8A83877EE1C7300F4F7EFDF
-        9FA37FFDF59782B70348818181DAD79C3E7DBA0477827C616121B1C5D2D23224
-        24E4DB6FBFFDE5975F24CF5BB76E51020B137F7C7C7CA82AFE7A5440FC23A85D
-        5DBA48B8E79006E5379209B83FF9E493A74F9FFEE1871F609DE6027738E6C68D
-        1B972E5DFAE69B6FD2D2D25E7EF9652F2FAF0E1D3A6888547689DA23468C888A
-        8A82A570BE78F1E2F7DF7F6F980C55C476EDDA852086CB478E1CD9AB57AFB7DE
-        7A8BFE87D7DF7EFBED9E3D7BC6C6C6EA05A6064D0EDCABABAB5F7FFD75F4D5D4
-        A9539981DA15A0843909C75B58582C5DBAB4AAAA4A8F0AA8EF80EC3AC5FAC32A
-        937F51C3ACD9C19D987BF5EA55C8E6E0C1838C1003094488BF484C3B3B3BF8C2
-        55CB28246CC22CB8F177FCF8F1D1D1D17BF7EE65FC18662ED8C44D90E03E7CF8
-        F0B66DDB02A0D6AD5BF7EEDDFBB5D75EA386010101CA66AB72E0BE67CF9E4993
-        260183E3C78FD77777CA4F9D3A852E2208E0AF470534F605973312EA8582F81B
-        5BCF3417B853CFCB972F331830F4C2850B070E1C4860258522FA9342917EA07D
-        0F1C3880CFCF5A76E5CA958C8C8CF8F8F8E0E0604F4F4F4E212FECD8B123EA79
-        FEFCF9DBB76F2703234A3419EE05DC172D5A74E2C4097A9EF84365D6AC59C310
-        2062A17C5AA120E2E5C07DD6AC59B0C6AA55AB74EB72BA883403CF993367EA51
-        813AEBA4C1E522617DF4D1471B15F192763F79F2A40EB8E386B2473080954D9B
-        365DBB760D6D979B9BCB441F3B762C1BECA2109292929E78E209E078F6EC59D4
-        82F629478F1E8545BCBDBD3333336FDEBCA9714A7D634C5E75E8D0217C9C9D9D
-        5126E4D39CC2AD89FBFBF7EF279DE25E8C840E0DC0211C7043C91016D00F9028
-        C46F6D6DCD051F7FFC7170BF6FDF3E6EA454C7EA30028B9999D90B2FBCC0549C
-        3163063A9E3EE1D668B337DE788339FCCC33CFC0A32866456E2707EE04404747
-        47D2D006AF06E340130C841E15A8B34E4C748D4281F846CD5941188C4224C9CB
-        CBD301F74F3EF9E4B9E79E73707068DFBEFD9021431815489113AD54C6C6871F
-        7EB87AF56AA233EA195111161646CAA57D4A505050D7AE5DC58A1B40D73885BB
-        D45949861F4669D5AA15E86476A16148AC01AEC1291D27C2A0478E1C2126F8FB
-        FB77EBD68D8B2387B8916117D4CBBEFBEE3B28064D4522919090D0B76F5F644C
-        4D4D0DB52A2D2D7DE9A59710368C021DF8EBAFBF1A7F3B3970A7F98CD1D75F7F
-        FDDF860C05085BE1AF4705B48BD495BA486105C41B1BF1C01D0802B8ECEC6C1D
-        7077727222E082B9C8C84873737320DBA74F1F703C46656CB00B2D719D888808
-        B04BD2D3AF5F3FED537020584366D01B83AA710A04536725991B789A9A9A2242
-        1024EBD7AF87639028C6349C04203F3F7FC3860DD3A64DB3B5B5E5E2622E1973
-        4D99463F43ED7429210E84115890C2172E5C004C252525858585292929A3478F
-        0655C4347D57FDB44D0EDCD920CA31F1B497E7354C0CA25ECF851A80BB588997
-        566904E23594BD524694078E48A6ACAC2C1D70079DE4EC4C3902EE471F7D0425
-        D37238A95C65313131546FD0A041C9C9C9E893828282D9B3679375699FB26CD9
-        3246B4A2A2023901DC354EE12E7556121644B2878686322B08FDCC1CA8888BA3
-        23A179789A56FCA5B2FA9A298EE256555545C8865351114838661117A4268851
-        021437D2DD572072F3E6CD482926676795B1C12E851C92B9A2424D366EDC0805
-        D01B9595954C3C940CD398D6A1AFA08FB4B43494153DE6E7E747071A89789970
-        278520A3A8F3C9ABBAE123D6BEF4A88076D19B6FBE295138B8D7588214886F0C
-        826784002B40D40DF7BB6E4421B2497A00504287EEEEEE840EC00A292002A74C
-        9942264A3E0AE5FFA265D5D5D5C4AE75EBD641E4B40E74D25E4B4B4B36C2C3C3
-        B76DDB8690835C1B4C5599572B56AC206AC182E4241B54C606BB1472080799CD
-        81C2D133043A9219328ADDBB77C317A410B402ACFFF8E38F0877C41EADC3EDCC
-        9933C62C4DCA817BA35ADDF7104B31775470D74076E3491AFA11297CEFC35D32
-        A88EE0402647C440E6FAFAFA92B9C294F41E39F1B061C39ED4320F0F0F522B64
-        9585850599869797575454148904D9390980CC05784210990617616AE5E4E4D0
-        57622EB1C12E851CC2013799AD00D6CC3726090187398CB6E12F9150CA500917
-        212121E4392FBEF8A231CA4DE653D5C6B3BAEF21113C7097A40BF35BACCA0BB5
-        A338E29B1DDC250331600B29555C5CBC73E74E3041CDC922B4E32FAAD4D3D373
-        C9922540BCA8A888C1BE7EFDBA5E8F99F04738C1E2B1B1B1C40A8D15247629E4
-        100EB8E12CE79A042BF4185932C29DA94B4E4FFC51CF4DB92C4180E98A78DBB5
-        6B97C10B35F2DF996924ABF71EEA042F4A04CAA5B45571C4375FB837A5213680
-        23FA5E0779730807DC7096734DD08CC442A0A3DAD980E9E97CA28DBA0F539ABC
-        1CA54462C32C356C254AB71637E0827A57A0BE0312C1DBDBDB0BC40B19233928
-        BE187F1FEE720CADE2E8E848FA28010E75714A6592CCE0100EB8E12CF3B210F6
-        FBEFBF8F6427349141B141F6AFF1A097584121885FBB76ADFA7B2CCDC8744D29
-        89E0C56A8C78E0AA0E6E8178A55EA7B90F7739466E00BF92418A5D5252603A5A
-        656C48192A0EB8E12CFFCAC4041F1F1F5B5BDB43870E454444C0F1CB962D2337
-        95F41203545050209EEC94949428FBF658D3982EB86B2CD108F5A2B10AA9E042
-        CD7DB8CB316B6BEB949414697904A94DF23749656CB02BCA71C00D67F95706D6
-        9037FDBF6AD5AAE3C78F238780FED34F3F8D6A97D61F21752655AF5EBD9809D2
-        946B46D680609208FE4E3D6FCEC0044A491A09EE99999924EFB0CB7DB86B1B08
-        DEB16387803BFCBA66CD1AC07740656CB02B481707DCF482BB380588DBD9D965
-        64649076474545919B8E1F3F3E2F2F4FCA5C11EE03070E747575654A343B826F
-        00EEEA045F9F29256924B83372898989CC2EC3E0CE18A032F7EEDD3B7DFAF40E
-        1D3A74AE35B6E12AB2B7AB57AF36BB71924C1DEE1814EEEDED3D5D656CB02BCA
-        0D83FB9E3D7B98331616160B172E44DB5CBA74293A3A9A8178EAA9A7D2D3D3A1
-        73FAEDF6EDDB69696924062B57AEFCE9A79F946F61635AC3E97083DFEF41F08A
-        ACD2487027CDA2BBADACAC509F065CA7A6A666EBD6ADEEEEEE8CDCD8B163DF7B
-        EF3DF11426303090128246424282CC35E97BD090E3F3E6CDFBF9E79FC5EEC58B
-        17DF79E71DB1A8CF86B49C82036E7A6977A07CFAF469171717070707D439E44D
-        9E8AAA04DC5C1CD6277440ED149213CF9D3B1782677A18FF6641535AC3709749
-        F002F1C67CE6A70177C2E8ABAFBEAAEF45E01BF42BE19811FAE0830FE027E989
-        666565E5962D5BA0C0DEBD7B27252529FE2166D31893D6C9C909B12195D0C62F
-        54C6865488036E38EB75715860C48811CF3EFB6CFFFEFDE17531A96EDDBA959D
-        9D3D66CC18FA2D2424E4ECD9B3401C79D3A74F1F74CEB973E7946A5A1398ACC5
-        4EF1E60CB8D7E163FC77DCC6C3FDC68D1BA9A9A9F6F6F6B366CD3A7FFEBCF64B
-        7C0462F8293C3CBC6FDFBE201E7F836BABACA1AF162C5800199B9A9A060404D4
-        F73EE61D556E4A03434343754C570EE1809B94B9CA34E4CAC8912319057A1EBE
-        3875EA9428A7DFCE9C3943218CCE40B37DF9F265C226336AD3A64D8AFF6041E3
-        992C740A8217CB327582FE739591B0DE5DB8A3D7D1308C1358AFEFD50E427679
-        79B9AFAF2FF11A7F836BABACA11C860E1D6A6262D2AE5DBBEEDDBB9363D4E759
-        5D5D1D1F1FCF745DBB762DD355A399EC52C8211C70C359AF6A08B8AF5BB78ED1
-        1C3C78705C5CDCCD9B37C52130CD9C64F45183741D283F72E40894EFEFEF4F6F
-        CBBC7ECB5A931E2D49DB1A85BA77B54F91F9B84A2E3A0573AB839E1EE1AFF485
-        6B0BD5CB05C624ACC6C39D740D758E8691789DD122DA1614141082A5BC8A580C
-        B5138BF137B8B60A1A33909E2499B6B1B101E8DDBA756BDDBAB50E67401C1313
-        434BC96DC01CEDBAAD32368E1E3D3A67CE1C0EE1809BBE19B9803B3940555515
-        190EDB595959E290807B5959197A7DC08001A89DA8A8A8E5CB979362314C325F
-        2B102F11D4F959A3F1C63C3433335312EE13264C10142E99588F07E5C62F4482
-        42027A972E5D80FBA2458B803BBDA9D7153A74E8406E2A4958B07EF8F06132B6
-        214386808CCCCC4C09F140212828A8093EC0956380322C2CAC67CF9EEFBEFB2E
-        5A8BAA8209DDA790928236285C3CFEFC8FCA50DB8E8E8E147248E315009926C1
-        9D8E2A2E2E86B9E93D01654222A3031FC1E5858585A4AA707C4444C4C4891341
-        FFFEFDFBE57C70081F834B3A5FFBB346E38DC4C3C3C34331B80B7048C2865DDD
-        6A5EBE31DE603D252585790F33A15C63636321391D31BD4E83201194D2F36D78
-        9DD1F2F2F29A3A75AA8F8F0F30629CC421B870F3E6CDF82B527F238DE6936C90
-        059696961297007DC78E1D759F42248468131313DDDCDC2C2D2D0D7EDF5DC324
-        B8839E8A8A0AD00C5310403874F2E449E40D64C7A0C3FD454545F42747478F1E
-        0D433152C4CF06830970476D4ACB4ACA1A634A9EAD30DCEFD466AE4A51230393
-        9B9B0B2E49FC813891117A0697844BED6F08751B43BE61C30609EE6818F1ED05
-        8444FCA1A33FFBEC337188AE810EEF1DB8CF983103FD46FE07DC91CE0DC2BD91
-        0C1C0F1F3E9C218029C853FDFCFCDAB469B378F162C8889900B2DBB66D4B14DA
-        B973279D7CE1C285D5AB5733640F3EF8202907B1A5B2B25237E2818D803BBA68
-        F7EEDDEB143232F22B57AE2806778D9F2790085E7E3FD669009DD1CDCBCB4323
-        31794C4D4DD1D3D9D9D914666464B04D5CD6EB821A70876F6020781DAC939BA2
-        D4CF9C39230E190977F16304740B63869625E53D76EC98C12B9B40046A47BF01
-        97BB0877AA71E0C001BA9D70014DCC9F3FDFDCDC1C287B7A7AE6E4E4E4E7E723
-        15BCBDBD813B90452C317C4480575E79A555AB56E2270C08ADBA1F3C09B8732E
-        118C30DE522123E761E2C192CAC05DFBC518637E7906AC2007E9972FBFFC522C
-        F1D2BF767676E458A876580415989C9CAC3B63ABD3D0EE8181818046EC720BF4
-        3A88A78BC13AFA5242E4B56BD7607DFC0DA83F97DDB66DDBA4499308EE4867E4
-        B2838303FA15C8EED8B10382FC4D4F63EE2185838383E1547A062D7157E00E7C
-        D3D2D26C6D6DDBB76F4FEB1811C6457C52686D6D8D4CE2AF6053219920694E81
-        AD860D1B0655999898100D4E9F3EAD635D1268329DE2E2E2E8B11E3D7A444646
-        7E60B42D59B2843AC38CE4154E4E4E0AC05D03DC86FDAE9878FE4C9A8274A1C1
-        E3C68D0385742875255CA2D7519C624505B86FDFBE9D8EA677F4BA050A12CED8
-        B2658BF4C104D04417A161E07509EB5C9F3C817ED73737B8A30A0B5C07AA0319
-        BB55468FC3795495C949A7B33D4E4F0B08088032ADACAC183934F1CA952B51E1
-        FA56CC781370A70399C03430292989341446A769161616A8768221B197B0064C
-        2917EFCC3064A9A9A9E00C373333B3993367328EF5DD021F268F782D47AC1D19
-        5FEDEBD7AFC7C7C7F7EBD78FCB92E21B0B77ED1F5A12DA5DE652CCCD9B37C11C
-        75424013ECA64C9902CEE009088C0DF1DAAAC67BD5F43B178742200C39B7900C
-        F0711680D3F1FD01E5846040C6A0CAFCFA41DD98E42473085C62518ACA084404
-        0AAACA5812FA4DF5B756B5069E5C5D5D011C23A76FC58C37BA1DA6B0B7B7878C
-        88B10C1C544D52815E479733AB9F7FFE79E20FE1E8E0C183E09B42B168838A20
-        F5C28D1E60D2A2ECEBBB85582CA799482029081B6F64024C1E40D5E097DA725F
-        22505F846157FAC1D4062D363676E9D2A54064D0A04110362441AC24074D4848
-        804BC8F7C9787EFCBB419FE5E5E511111178CABC8B30240A9C04C58687877305
-        EDD7399854609DA490B498F1C35FAFEB63CC4FF1AB01D4AD9BCAD886FC046F11
-        A399099E4618A7D339B45DDF8AE96B629D5E7DBD9C6DF143A4A059741D386656
-        D35E881CE902678972908A72A3AAC4A23B2A754A9A4402467C2367D5F1B4A485
-        EAF3C5B0B030BD7ED8518E31940B162C68F077381A86BBC67BBF82ECE52F41C2
-        E222E381FF000740842448CB50EDD3A64D9B558F7188FB1AA0AD992AE21112B9
-        295CC5C0DCAE357A04326644C5A3A87BE70D82A637DA9E9191B171E34618A7AC
-        AC4C7C1F8D0A77767666B0B2B2B2200B28137647EF8D1A354A5AC0158680214B
-        2110A1E3C56357107FE2C4093245E4C4E4C993EF52B31AB606E02EFD32B05422
-        E78D317583F944E6CE5904EE4E9D3A41F0FCE59A66F51B1C4070241734A0498C
-        25A1C3C5C505D0070505FDA7D6901C94A06118240378FD9F645BB76E250642E4
-        8C85F47D74D7AE5D192958890D52F0D0D050089B2086382C2E2ED6B8020A7EF9
-        F2E55E5E5EFBF6EDA3C3617DE6C0FAF5EB6D6C6C38EBAE344A8EFDEDDB536152
-        0998166B3212DCD9D540FF3D68E27DF7F4F47474275CA5FDBEBB014FD7FF6146
-        6E406FE8A01B8E0A56624A1087B5B507421F25131C1C8CF45AB162454E4E0EF1
-        8104D7CDCDED5E87BBF4FF76482F05A8BF21535F7913FC26F07D6B247B56B621
-        7860873A9FD19208A1762223231D6B8D9840BE08CB347983E4DAFFC15D7A4AAA
-        0DF13ADF385377B8DBF5BF6F86D835D9A6FBB11188C707528F8E8E16FF871958
-        271F68B286E86BFF0B4244F71F176872210000000049454E44AE426082
-      }
+    object Panel2: TPanel
+      Left = 0
+      Height = 29
+      Top = 0
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 1
+      object Label3: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Border (Margin) [config:border]: '
+        Layout = tlCenter
+      end
+      object spnTextBorder: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 100
+        TabOrder = 0
+      end
+    end
+    object Label4: TLabel
+      Left = 0
+      Height = 19
+      Top = 58
+      Width = 436
+      Align = alTop
+      Alignment = taRightJustify
+      Caption = 'Obs.: lines will always be at least as tall as the tallest character used.'
+      Font.Style = [fsItalic]
+      ParentFont = False
+    end
+    object Panel3: TPanel
+      Left = 0
+      Height = 29
+      Top = 77
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 2
+      object Label5: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Vertical Space between Lines [config:linespace]: '
+        Layout = tlCenter
+      end
+      object spnTextLineSpace: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 100
+        TabOrder = 0
+        Value = 5
+      end
+    end
+    object Panel4: TPanel
+      Left = 0
+      Height = 29
+      Top = 106
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 3
+      object Label6: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Horizontal Space between Characters [config:space]: '
+        Layout = tlCenter
+      end
+      object spnTextSpace: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 100
+        TabOrder = 0
+      end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 29
+      Top = 164
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 4
+      object Label7: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Maximum Text Height [config:maxheight]: '
+        Layout = tlCenter
+      end
+      object spnTextMaxHeight: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 10000
+        TabOrder = 0
+        Value = 5000
+      end
+    end
+    object Panel6: TPanel
+      Left = 0
+      Height = 29
+      Top = 135
+      Width = 436
+      Align = alTop
+      AutoSize = True
+      ClientHeight = 29
+      ClientWidth = 436
+      TabOrder = 5
+      object Label8: TLabel
+        Left = 1
+        Height = 27
+        Top = 1
+        Width = 384
+        Align = alClient
+        Alignment = taRightJustify
+        Caption = 'Maximum Text Width [config:maxwidth]: '
+        Layout = tlCenter
+      end
+      object spnTextMaxWidth: TSpinEdit
+        Left = 385
+        Height = 27
+        Top = 1
+        Width = 50
+        Align = alRight
+        MaxValue = 10000
+        TabOrder = 0
+        Value = 1000
+      end
     end
   end
-  object FileListBox1: TFileListBox
-    Left = 528
-    Height = 385
-    Top = 136
-    Width = 296
-    Directory = '/home/qvasimodo'
-    ItemHeight = 25
+  object Panel7: TPanel
+    Left = 0
+    Height = 27
+    Top = 264
+    Width = 440
+    Align = alTop
+    BevelOuter = bvNone
+    ClientHeight = 27
+    ClientWidth = 440
     TabOrder = 2
-    Visible = False
-  end
-  object mnuMain: TMainMenu
-    Left = 360
-    Top = 56
-    object mnuFile: TMenuItem
-      Caption = '&File'
-      object mnuFileNew: TMenuItem
-        Caption = '&New File'
-        ShortCut = 16462
-        OnClick = mnuFileNewClick
-      end
-      object mnuFileOpen: TMenuItem
-        Caption = '&Open Existing File'
-        ShortCut = 16463
-        OnClick = mnuFileOpenClick
-      end
-      object mnuFileSaveText: TMenuItem
-        Caption = '&Save Text File'
-        ShortCut = 16467
-        OnClick = mnuFileSaveTextClick
-      end
-      object mnuFileSaveTextAs: TMenuItem
-        Caption = 'Save Text File &As...'
-        ShortCut = 24659
-        OnClick = mnuFileSaveTextAsClick
-      end
-      object mnuFileSaveImageAs: TMenuItem
-        Caption = 'Save &Image File As...'
-        ShortCut = 24649
-        OnClick = mnuFileSaveImageAsClick
-      end
-      object Separator1: TMenuItem
-        Caption = '-'
-      end
-      object mnuFileExit: TMenuItem
-        Caption = 'E&xit'
-        ShortCut = 32883
-        OnClick = mnuFileExitClick
-      end
+    object Button3: TButton
+      Left = 72
+      Height = 25
+      Top = 0
+      Width = 75
+      Caption = '&Cancel'
+      ModalResult = 2
+      TabOrder = 0
     end
-    object mnuEdit: TMenuItem
-      Caption = '&Edit'
-      object mnuEditCopy: TMenuItem
-        Action = actCopy
-      end
-      object mnuEditCut: TMenuItem
-        Action = actCut
-      end
-      object mnuEditPaste: TMenuItem
-        Action = actPaste
-      end
-    end
-    object mnuView: TMenuItem
-      Caption = 'View'
-      object mnuViewHorizontal: TMenuItem
-        Caption = '&Horizontal Layout'
-        Enabled = False
-        ShortCut = 24648
-      end
-      object mnuViewVertical: TMenuItem
-        Caption = '&Vertical Layout'
-        Checked = True
-        Enabled = False
-        ShortCut = 24662
-      end
-      object Separator4: TMenuItem
-        Caption = '-'
-      end
-      object mnuViewGlyphs: TMenuItem
-        Caption = '&Glyphs List'
-        Checked = True
-        Enabled = False
-        ShortCut = 24647
-      end
-      object Separator3: TMenuItem
-        Caption = '-'
-      end
-      object mnuViewUpdate: TMenuItem
-        Caption = 'Update View'
-        ShortCut = 116
-        OnClick = mnuViewUpdateClick
-      end
-    end
-    object mnuTools: TMenuItem
-      Caption = '&Tools'
-      object mnuToolsGlyphs: TMenuItem
-        Caption = 'Glyphs &Database'
-        OnClick = mnuToolsGlyphsClick
-      end
-      object Separator2: TMenuItem
-        Caption = '-'
-      end
-      object mnuToolsOptions: TMenuItem
-        Caption = '&Options'
-        OnClick = mnuToolsOptionsClick
-      end
-    end
-    object mnuHelp: TMenuItem
-      Caption = '&Help'
-      object mnuHelpTopics: TMenuItem
-        Caption = '&Help Topics'
-        ShortCut = 112
-      end
-      object mnuHelpAbout: TMenuItem
-        Caption = '&About...'
-        OnClick = mnuHelpAboutClick
-      end
+    object Button2: TButton
+      Left = 285
+      Height = 25
+      Top = 0
+      Width = 75
+      Anchors = [akTop, akRight]
+      Caption = '&Save'
+      ModalResult = 1
+      TabOrder = 1
     end
   end
-  object OpenDialog1: TOpenDialog
-    DefaultExt = '.hiero'
-    Filter = 'Hieroglyphic Text (*.hiero)|*.hiero|Plain Text (*.txt)|*.txt'
-    FilterIndex = 0
-    Options = [ofFileMustExist, ofEnableSizing, ofViewDetail]
-    Left = 282
-    Top = 76
-  end
-  object SaveDialog1: TSaveDialog
-    DefaultExt = '.*.hiero'
-    Filter = 'Hieroglyphic Text (*.hiero)|*.hiero|Plain Text (*.txt)|*.txt'
-    FilterIndex = 0
-    Options = [ofOverwritePrompt, ofExtensionDifferent, ofEnableSizing, ofViewDetail]
-    Left = 399
-    Top = 94
-  end
-  object SavePictureDialog1: TSavePictureDialog
-    Title = 'Save image file as'
-    DefaultExt = '.png'
-    FileName = '/home/qvasimodo/2021-03-30_17-38-56.png'
-    FilterIndex = 2
-    InitialDir = '/home/qvasimodo/'
-    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
-    Left = 494
-    Top = 77
-  end
-  object ActionList1: TActionList
-    Left = 216
-    Top = 64
-    object actCopy: TAction
-      Caption = 'Copy Selected Text'
-      OnExecute = actCopyExecute
-      ShortCut = 16451
-    end
-    object actCut: TAction
-      Caption = 'Cut Selected Text'
-      OnExecute = actCutExecute
-      ShortCut = 16472
-    end
-    object actPaste: TAction
-      Caption = 'Paste Text from the Clipboard'
-      OnExecute = actPasteExecute
-      ShortCut = 16470
-    end
+  object FontDialog1: TFontDialog
+    MinFontSize = 0
+    MaxFontSize = 0
+    Left = 174
+    Top = 52
   end
 end
