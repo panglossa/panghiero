@@ -7,9 +7,11 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Menus, StdCtrls, lcltype, Clipbrd,
   ExtCtrls, Buttons, FileCtrl, ExtDlgs, IniFiles,
-  ActnList,
+  ActnList, ComCtrls,
   uglyphdata, ucharacterinfo,
   utools;
+
+//icons by Icons8 (https://icons8.com)
 
 type
 
@@ -20,10 +22,19 @@ type
     actCut: TAction;
     actPaste: TAction;
     ActionList1: TActionList;
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
     cboGardiner: TComboBox;
     FileListBox1: TFileListBox;
+    Separator5: TMenuItem;
+    mnuViewMainToolBar: TMenuItem;
+    pnlToolBar: TPanel;
     pnlGlyphs: TFlowPanel;
-    GroupBox1: TGroupBox;
+    gbGlyphsList: TGroupBox;
     imgMainDisplay: TImage;
     Image2: TImage;
     mnuMain: TMainMenu;
@@ -64,19 +75,29 @@ type
     procedure actCutExecute(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actPasteExecute(Sender: TObject);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BitBtn2Click(Sender: TObject);
+    procedure BitBtn3Click(Sender: TObject);
+    procedure BitBtn4Click(Sender: TObject);
+    procedure BitBtn5Click(Sender: TObject);
+    procedure BitBtn6Click(Sender: TObject);
     procedure cboGardinerChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure GroupBox1Click(Sender: TObject);
+    procedure gbGlyphsListClick(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure mnuViewMainToolBarClick(Sender: TObject);
     procedure mnuFileSaveImageAsClick(Sender: TObject);
     procedure mnuFileSaveTextAsClick(Sender: TObject);
     procedure mnuFileSaveTextClick(Sender: TObject);
     procedure mnuToolsGlyphsClick(Sender: TObject);
     procedure mnuToolsOptionsClick(Sender: TObject);
+    procedure mnuViewGlyphsClick(Sender: TObject);
+    procedure mnuViewHorizontalClick(Sender: TObject);
+    procedure mnuViewVerticalClick(Sender: TObject);
     procedure txtMainEditorChange(Sender: TObject);
     procedure txtMainEditorExit(Sender: TObject);
     procedure mnuHelpAboutClick(Sender: TObject);
@@ -130,7 +151,7 @@ bmp:=texttoimage(txtMainEditor.Text);
 imgMainDisplay.Picture.loadfromfile('tmp.bmp');
 imgMainDisplay.Picture.SaveToFile('default.png');
 screen.Cursor:=crDefault;
-txtMainEditor.SetFocus;
+//txtMainEditor.SetFocus;
 end;
 
 procedure TfrmMain.glyphbuttonClick(Sender: TObject);
@@ -139,7 +160,7 @@ txtMainEditor.SelText:=' ' + (Sender as TImage).Hint + ' ';
 txtMainEditor.SetFocus;
 end;
 
-procedure TfrmMain.GroupBox1Click(Sender: TObject);
+procedure TfrmMain.gbGlyphsListClick(Sender: TObject);
 begin
 
 end;
@@ -147,6 +168,18 @@ end;
 procedure TfrmMain.Image2Click(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmMain.mnuViewMainToolBarClick(Sender: TObject);
+begin
+if pnlToolBar.Visible then begin
+  pnlToolBar.Visible:=false;
+  mnuViewMainToolBar.Checked:=false;
+  end else begin
+  pnlToolBar.Visible:=true;
+  mnuViewMainToolBar.Checked:=true;
+  end;
+ini.WriteBool('Main Toolbar', 'Visible', pnlToolBar.Visible);
 end;
 
 procedure TfrmMain.mnuFileSaveImageAsClick(Sender: TObject);
@@ -207,6 +240,57 @@ if frmOptions.ModalResult = mrOK then begin
    end;
 end;
 
+procedure TfrmMain.mnuViewGlyphsClick(Sender: TObject);
+begin
+if (gbGlyphsList.Visible) then begin
+   gbGlyphsList.Visible:=false;
+   mnuViewGlyphs.Checked:=false;
+   end else begin
+   gbGlyphsList.Visible:=true;
+   mnuViewGlyphs.Checked:=true;
+   end;
+ini.WriteBool('Glyphs List', 'Visible', gbGlyphsList.Visible);
+end;
+
+procedure TfrmMain.mnuViewHorizontalClick(Sender: TObject);
+begin
+mnuViewHorizontal.Checked:=true;
+mnuViewVertical.Checked:=false;
+imgMainDisplay.align:=alright;
+imgMainDisplay.Width:=0;
+Splitter1.align:=alnone;
+Splitter1.Left:=1000;
+
+txtMainEditor.align:=alleft;
+txtMainEditor.Width:=Panel1.width div 2;
+
+Splitter1.ResizeAnchor:=akLeft;
+Splitter1.width:=5;
+Splitter1.align:=alleft;
+imgMainDisplay.align:=alclient;
+ini.writestring('Editor Layout', 'Orientation', 'horizontal')
+end;
+
+procedure TfrmMain.mnuViewVerticalClick(Sender: TObject);
+begin
+mnuViewVertical.Checked:=True;
+mnuViewHorizontal.Checked:=false;
+imgMainDisplay.align:=alBottom;
+imgMainDisplay.Height:=0;
+Splitter1.align:=alNone;
+Splitter1.Top:=1000;
+
+txtMainEditor.align:=altop;
+txtMainEditor.height:=0;
+
+Splitter1.ResizeAnchor:=akTop;
+Splitter1.height:=5;
+Splitter1.align:=altop;
+txtMainEditor.height:=panel1.Height div 2;
+imgMainDisplay.align:=alclient;
+ini.writestring('Editor Layout', 'Orientation', 'vertical')
+end;
+
 procedure TfrmMain.txtMainEditorChange(Sender: TObject);
 begin
 unsaved:=true;
@@ -225,6 +309,7 @@ end;
 procedure TfrmMain.mnuViewUpdateClick(Sender: TObject);
 begin
 updateview;
+txtMainEditor.SetFocus;
 end;
 
 procedure TfrmMain.mnuFileNewClick(Sender: TObject);
@@ -350,7 +435,26 @@ procedure TfrmMain.FormShow(Sender: TObject);
 begin
 txtMainEditor.font.Name:=ini.ReadString('Editor Font', 'Name', 'Aegyptus');
 txtMainEditor.font.Size:=ini.ReadInteger('Editor Font', 'Size', 20);
+if (ini.readstring('Editor Layout', 'Orientation', 'horizontal')='horizontal') then begin
+  mnuViewHorizontalClick(self);
+  end else begin
+  mnuViewVerticalClick(self);
+  end;
+if (ini.ReadBool('Main Toolbar', 'Visible', true)) then begin
+  pnlToolBar.Visible:=true;
+  mnuViewMainToolBar.Checked:=true;
+  end else begin
+  pnlToolBar.Visible:=false;
+  mnuViewMainToolBar.Checked:=false;
+  end;
 
+if (ini.ReadBool('Glyphs List', 'Visible', true)) then begin
+  gbGlyphsList.Visible:=true;
+  mnuViewGlyphs.Checked:=true;
+  end else begin
+  gbGlyphsList.Visible:=false;
+  mnuViewGlyphs.Checked:=false;
+  end;
 end;
 
 procedure TfrmMain.cboGardinerChange(Sender: TObject);
@@ -361,6 +465,9 @@ var
   bl, test:string;
   ok:boolean;
   isnum, k:integer;
+  phoneticsigns:string;
+  signlist:TStringArray;
+  flnm:string;
 
 begin
 prefix:='A';
@@ -393,31 +500,65 @@ case cboGardiner.ItemIndex of
      25: prefix := 'Y'; //Writings, games, music
      26: prefix := 'Z'; //Strokes, signs derived from Hieratic, geometrical features
      27: prefix := 'Aa'; //Unclassified signs
+     28: prefix := 'uniliteral'; //uniliteral signs
+     29: prefix := 'biliteral'; //biliteral signs
+     30: prefix := 'triliteral'; //triliteral signs
      end;
-FileListBox1.Mask:='hiero_' + prefix + '*.png';
-FileListBox1.Directory:=IncludeTrailingBackslash(extractfiledir(paramstr(0))) + 'img';
 for i:=pnlGlyphs.ComponentCount-1 downto 0 do begin
     pnlGlyphs.Controls[i].Destroy;
     end;
-for i:=0 to FileListBox1.Items.count -1 do begin
-  bl:=StringReplace(FileListBox1.Items[i], 'hiero_', '', [rfReplaceAll]);
-  bl:=stringreplace(bl, '.png', '', [rfReplaceAll]);
-  ok := false;
-  if (trim(bl)<>'') then begin
-    test:=StringReplace(bl, prefix, '', [rfReplaceAll]);
-    val(test, k, isnum);
-    if (isnum=0) then begin
-      ok:=true;
+if (cboGardiner.ItemIndex>27) then begin
+  case prefix of
+       'uniliteral': begin
+         phoneticsigns:='G1,M17,M17A,Z4,D36,G43,Z7,D58,Q3,I9,G17,N35,D21,O4,V28,Aa1,F32,O34,S29,N37,N29,V31,W11,X1,V13,D46,I10';
+         end;
+       'biliteral': begin
+         phoneticsigns:='F40,U23,G25,M15,Q1,F51C,D54,E9,E8,F34,Aa13,Z11,A27,K1,W24,W25,A48,D4,T24,M40,A19,I3,V15,O29,F16,T24,G35,'
+         + 'K3,V26,V27,V4,T21,F13,E34,M42,G36,F51C,Q1,Q2,M13,V24,V25,G29,W10,W10A,F18,G40,G41,O1,F22,D56,T9,U1,D36,D38,N36,W19,N35A,'
+         + 'G18,T1,Y5,N36,O5,U6,U23,V22,D35,D41,U19,W24,V30,O5,T34,T35,M22A,H4,G21,F20,Aa27,E23,T13,U13,M16,F18,Aa5,N42,U36,M2,U8,V36'
+         + ',D2,N31,W14,T3,T4,L6,M12,N28,D43,R22,M3,K4,D33,F26,T28,G39,V16,V17,O50,Aa17,Aa18,M23,T22,V29,F29,Q1,S22,Z9,H7,M8,H6,N40'
+         + ',V1,V7,V6,F30,Aa8,T19,Aa28,D28,R5,I6,G38,G28,Aa13,Aa16,N16,N17,U30,U33,D1,T8,U15,M6,G47,S24,D37,X8,U28,U29,X8,N26,G22,M36,R11,I11';
+         end;
+       'triliteral': begin
+         phoneticsigns:='E26,O28,F44,S39,Aa20,S34,P6,I1,V29,S40,M13,D60,F25,F12,Aa11,S12,F35,R8,T12,S38,R4,L1,W17,S42,P8,U34,W9,N14,F42,F36,S29,G54,T31,U21,F21,A50,M26,T18,U17,G4,T25';
+         end;
+       end;
+  signlist:=phoneticsigns.Split(',');
+  for i:=0 to Length(signlist)-1 do begin
+    flnm:=IncludeTrailingBackslash(extractfiledir(paramstr(0))) + IncludeTrailingBackslash('img') + 'hiero_' + signlist[i] + '.png';
+    if (FileExists(flnm)) then begin
+      btn:=TImage.Create(pnlGlyphs);
+      btn.Picture.LoadFromFile(flnm);
+      btn.Hint:=signlist[i];
+      btn.ShowHint:=true;
+      btn.OnClick:=@glyphbuttonClick;
+      btn.AutoSize:=true;
+      btn.Parent:=pnlGlyphs;
       end;
     end;
-  if ok then begin
-    btn:=TImage.Create(pnlGlyphs);
-    btn.Picture.LoadFromFile(IncludeTrailingBackslash(extractfiledir(paramstr(0))) + IncludeTrailingBackslash('img') + FileListBox1.Items[i]);
-    btn.Hint:=bl;
-    btn.ShowHint:=true;
-    btn.OnClick:=@glyphbuttonClick;
-    btn.AutoSize:=true;
-    btn.Parent:=pnlGlyphs;
+  end else begin
+  FileListBox1.Mask:='hiero_' + prefix + '*.png';
+  FileListBox1.Directory:=IncludeTrailingBackslash(extractfiledir(paramstr(0))) + 'img';
+  for i:=0 to FileListBox1.Items.count -1 do begin
+    bl:=StringReplace(FileListBox1.Items[i], 'hiero_', '', [rfReplaceAll]);
+    bl:=stringreplace(bl, '.png', '', [rfReplaceAll]);
+    ok := false;
+    if (trim(bl)<>'') then begin
+      test:=StringReplace(bl, prefix, '', [rfReplaceAll]);
+      val(test, k, isnum);
+      if (isnum=0) then begin
+        ok:=true;
+        end;
+      end;
+    if ok then begin
+      btn:=TImage.Create(pnlGlyphs);
+      btn.Picture.LoadFromFile(IncludeTrailingBackslash(extractfiledir(paramstr(0))) + IncludeTrailingBackslash('img') + FileListBox1.Items[i]);
+      btn.Hint:=bl;
+      btn.ShowHint:=true;
+      btn.OnClick:=@glyphbuttonClick;
+      btn.AutoSize:=true;
+      btn.Parent:=pnlGlyphs;
+      end;
     end;
   end;
 txtMainEditor.SetFocus;
@@ -442,6 +583,36 @@ end;
 procedure TfrmMain.actPasteExecute(Sender: TObject);
 begin
 txtMainEditor.PasteFromClipboard;
+end;
+
+procedure TfrmMain.BitBtn1Click(Sender: TObject);
+begin
+mnuFileOpenClick(self);
+end;
+
+procedure TfrmMain.BitBtn2Click(Sender: TObject);
+begin
+mnuFileNewClick(self);
+end;
+
+procedure TfrmMain.BitBtn3Click(Sender: TObject);
+begin
+mnuFileSaveTextClick(self);
+end;
+
+procedure TfrmMain.BitBtn4Click(Sender: TObject);
+begin
+mnuFileSaveTextAsClick(self);
+end;
+
+procedure TfrmMain.BitBtn5Click(Sender: TObject);
+begin
+mnuViewUpdateClick(self);
+end;
+
+procedure TfrmMain.BitBtn6Click(Sender: TObject);
+begin
+mnuFileSaveImageAsClick(self);
 end;
 
 procedure TfrmMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
