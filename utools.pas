@@ -5,7 +5,7 @@ unit utools;
 interface
 
 uses
-  Classes, SysUtils, graphics, inifiles,
+  Classes, SysUtils, graphics, inifiles, dialogs,
   ucharacterinfo, uglyphdata;
 
 function listfiles:TStringList;
@@ -13,6 +13,7 @@ procedure processhierofile(filename:string);
 procedure initdata;
 procedure generate_image(characters: TList; filename:string);
 function builddatafile:integer;
+function processaliases(sourcetext:string):string;
 function texttoimage(sourcetext:string):TBitMap;//TPortableNetworkGraphic;
 
 implementation
@@ -173,24 +174,24 @@ if (not FileExists('img/hiero_A1.png')) then begin
   writeln('[!] ERROR: Image files NOT FOUND!');
   halt(1);
   end;
-if (FileExists('glyphdata.csv')) then begin
+if (FileExists('glyphdata.dat')) then begin
    writeln('Loading glyph data...');
-   rawdata.LoadFromFile('glyphdata.csv');
+   rawdata.LoadFromFile('glyphdata.dat');
    end else begin
-   writeln('[!] Data file glyphdata.csv NOT FOUND!');
+   writeln('[!] Data file glyphdata.dat NOT FOUND!');
    writeln('Trying to load alternate data file...');
-   if (FileExists('altglyphdata.csv')) then begin
+   if (FileExists('altglyphdata.dat')) then begin
       writeln('Loading glyph data from alternate file...');
-      rawdata.LoadFromFile('altglyphdata.csv');
+      rawdata.LoadFromFile('altglyphdata.dat');
       end else begin
-      writeln('[!] Alternate data file altglyphdata.csv NOT FOUND!');
+      writeln('[!] Alternate data file altglyphdata.dat NOT FOUND!');
       writeln('Trying to generate alternate data file from image files...');
       j:=builddatafile;
-      if (FileExists('altglyphdata.csv')) then begin
+      if (FileExists('altglyphdata.dat')) then begin
          writeln('Loading glyph data from alternate file...');
-         rawdata.LoadFromFile('altglyphdata.csv');
+         rawdata.LoadFromFile('altglyphdata.dat');
          end else begin
-         writeln('[!] Alternate data file altglyphdata.csv NOT FOUND!');
+         writeln('[!] Alternate data file altglyphdata.dat NOT FOUND!');
          halt(1);
          end;
       end;
@@ -427,9 +428,34 @@ for f:=0 to files.count-1 do begin
   files[f]:=StringReplace(files[f], 'hiero_', '', [rfReplaceAll]);
   datafile.add(files[f] + '||' + inttostr(glyph.Width) + '|' + inttostr(glyph.Height));
   end;
-datafile.SaveToFile('altglyphdata.csv');
+datafile.SaveToFile('altglyphdata.dat');
 result:=files.Count;
 end;
+
+function processaliases(sourcetext: string): string;
+var
+  rawaliases:TStringList;
+  parts:TStringArray;
+  i:integer;
+  res:string;
+
+begin
+if (fileexists('aliases.dat')) then begin
+  res:=sourcetext;
+  rawaliases:=TStringList.create;
+  rawaliases.LoadFromFile('aliases.dat');
+  for i:=0 to rawaliases.Count-1 do begin
+    parts:=rawaliases[i].Trim().Split('|');
+    if (length(parts)=2) then begin
+      res:=StringReplace(res, parts[0], parts[1], [rfReplaceAll]);
+      end;
+    end;
+  result:=res;
+  end else begin
+  result:=sourcetext;
+  end;
+end;
+
 //////////////////////////////////////
 { Now that everything works, let's put everything
 in a nice function by which you can feed some text
@@ -453,6 +479,7 @@ var
   x, y,
   glyphx, glyphy,
   groupwidth,
+  cartouchestart,
   {nextx,}
   finalwidth, finalheight,
   g, j, k :integer;
@@ -462,13 +489,14 @@ var
 
 begin
 initdata;
+cartouchestart:=-1;
 appconfig:=TIniFile.Create(IncludeTrailingBackslash(ExtractFilePath(ParamStr(0))) + 'panghiero.ini');
 userconfig:=TStringList.create;
 userconfig.Clear;
 //writeln('Processing source file ''' + filename + '''...');
 characters:=TList.create;
 lines:=TStringList.create;
-lines.text:=sourcetext;
+lines.text:=processaliases(sourcetext);
 src:='';
 for i:=0 to lines.count-1 do begin
     if (pos('config', lines[i])=0) then begin
@@ -480,9 +508,9 @@ for i:=0 to lines.count-1 do begin
     end;
 src:=trim(src);
 src:=StringReplace(src, '-', ' ', [rfReplaceAll]);
-//src:=StringReplace(src, #13#10, ' ', [rfReplaceAll]);
-//src:=StringReplace(src, #13, ' ', [rfReplaceAll]);
-//src:=StringReplace(src, #10, ' ', [rfReplaceAll]);
+src:=StringReplace(src, #13#10, ' ', [rfReplaceAll]);
+src:=StringReplace(src, #13, ' ', [rfReplaceAll]);
+src:=StringReplace(src, #10, ' ', [rfReplaceAll]);
 src:=StringReplace(src, '!', ' ! ', [rfReplaceAll]);
 src:=StringReplace(src, '	', ' ', [rfReplaceAll]);
 while (Pos('  ', src)>0) do begin
@@ -492,9 +520,10 @@ src:=StringReplace(src, '* ', '*', [rfReplaceAll]);
 src:=StringReplace(src, ' *', '*', [rfReplaceAll]);
 src:=StringReplace(src, ': ', ':', [rfReplaceAll]);
 src:=StringReplace(src, ' :', ':', [rfReplaceAll]);
-//writeln('Processed source text: '#13#10'----------------------');
-//writeln(src);
-//writeln('----------------------');
+writeln('Processed source text: '#13#10'----------------------');
+writeln(src);
+writeln('----------------------');
+//showmessage(src);
 parsed:=src.Split(' ');
 for i:=0 to length(parsed)-1 do begin
   token:=trim(parsed[i]);
@@ -635,7 +664,8 @@ y:=border;
 bmp:=TBitmap.Create;
 bmp.Width:=maxwidth;
 bmp.Height:=maxheight;
-bmp.Canvas.Pen.Color:=clWhite;
+bmp.Canvas.Pen.Color:=clBlack;
+bmp.Canvas.Pen.Width:=3;
 bmp.Canvas.Brush.Color:=clWhite;
 bmp.Canvas.FillRect(0,0,maxwidth,maxheight);
 for i:=0 to characters.count-1 do begin
@@ -687,6 +717,13 @@ for i:=0 to characters.count-1 do begin
              if (TCharacterInfo(characters[i+2]).width > groupwidth) then begin
                 groupwidth:=TCharacterInfo(characters[i+2]).width;
                 end;
+             end;
+           end;
+         end;
+       'bottom': begin
+         if (i>0) then begin
+           if (TCharacterInfo(characters[i]).height + TCharacterInfo(characters[i-1]).height > lineheight) then begin
+             lineheight:=TCharacterInfo(characters[i]).height + TCharacterInfo(characters[i-1]).height;
              end;
            end;
          end;
@@ -816,10 +853,16 @@ for i:=0 to characters.count-1 do begin
     if (FileExists(glyphfilename, true)) then begin
       if (TCharacterInfo(characters[i]).name='blank') then begin
         //writeln(#13#10'[!] glyph [' + TCharacterInfo(characters[i]).code + '] NOT FOUND, loading placeholder image ' + glyphfilename + ' [!]...');
+        end else if (TCharacterInfo(characters[i]).code='<') then begin
+        cartouchestart:=glyphx + groupwidth;
+        end else if (TCharacterInfo(characters[i]).code='>') then begin
+        bmp.canvas.Line(cartouchestart, glyphy + 1, glyphx, glyphy + 1);
+        bmp.canvas.Line(cartouchestart, glyphy + lineheight - 5, glyphx, glyphy + lineheight - 5);
+        cartouchestart:=-1;
         end else begin
-        write('Loading glyph [' + TCharacterInfo(characters[i]).code + '] from file ' + glyphfilename + '...');
+        //write('Loading glyph [' + TCharacterInfo(characters[i]).code + '] from file ' + glyphfilename + '...');
         end;
-      writeln;
+      //writeln;
       glyph:=TPortableNetworkGraphic.Create;
       glyph.LoadFromFile(glyphfilename);
       r:=glyph.Canvas.ClipRect;
@@ -827,6 +870,7 @@ for i:=0 to characters.count-1 do begin
       r.top:=glyphy;
       //x:=x + glyph.Width + space;
       writeln('[Glyph ' + TCharacterInfo(characters[i]).code + ']');
+      writeln('[filename ' + glyphfilename + ']');
       writeln('width=' + inttostr(TCharacterInfo(characters[i]).width));
       writeln('height=' + inttostr(TCharacterInfo(characters[i]).height));
       writeln('x=' + inttostr(x));
@@ -853,13 +897,16 @@ r:=bmp.canvas.ClipRect;
 r.Right:=textwidth + border;
 r.Bottom:=y + lineheight + border;
 finalimage.canvas.CopyRect(bmp.canvas.ClipRect, bmp.canvas, bmp.canvas.ClipRect);
-finalimage.SaveToFile('tmp.bmp');
+if (appconfig.ReadString('Graphic Options', 'Text Direction', 'Left to Right')='Right to Left') then begin
+   finalimage.Canvas.CopyRect(Rect(finalimage.Width,0,0,finalimage.Height),finalimage.Canvas,Rect(0,0,finalimage.width,finalimage.Height));
+   end;
+//finalimage.SaveToFile('tmp.bmp');
 //writeln('Generated image file ' + StringReplace(filename, '.hiero', '.png', [rfReplaceAll]));
 //writeln('======================');
 //writeln('');
 //bmp.SaveToFile(StringReplace(filename, '.hiero', '.bmp', [rfReplaceAll]));
 bmp.Free;
-finalimage.free;
+//finalimage.free;
 result:=finalimage;
 //glyph.free;
 end;

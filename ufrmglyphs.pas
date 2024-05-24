@@ -171,7 +171,7 @@ var
 begin
 Panel1.Align:=alClient;
 s:=TStringList.create;
-s.LoadFromFile('fullhieroglyphs.csv');
+s.LoadFromFile('fullhieroglyphs.dat');
 lstMain.Clear;
 lstCodes.Clear;
 lstGlyphs.Clear;

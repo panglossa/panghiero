@@ -1,7 +1,7 @@
 object frmMain: TfrmMain
-  Left = 416
+  Left = 292
   Height = 550
-  Top = 286
+  Top = 213
   Width = 816
   Caption = 'PangHiero v. 0.1'
   ClientHeight = 521
@@ -2762,8 +2762,13 @@ object frmMain: TfrmMain
     end
   end
   object mnuMain: TMainMenu
+    Images = ImageList1
     Left = 360
     Top = 56
+    object MenuItem1: TMenuItem
+      Enabled = False
+      ImageIndex = 0
+    end
     object mnuFile: TMenuItem
       Caption = '&File'
       object mnuFileNew: TMenuItem
@@ -2811,6 +2816,20 @@ object frmMain: TfrmMain
       object mnuEditPaste: TMenuItem
         Action = actPaste
       end
+      object Separator6: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Hieroglyphic Text Direction'
+        object mnuEditDirectionLtR: TMenuItem
+          Caption = '-> Left to Right'
+          OnClick = mnuEditDirectionLtRClick
+        end
+        object mnuEditDirectionRtL: TMenuItem
+          Caption = 'Right to Left <-'
+          OnClick = mnuEditDirectionRtLClick
+        end
+      end
     end
     object mnuView: TMenuItem
       Caption = 'View'
@@ -2853,6 +2872,10 @@ object frmMain: TfrmMain
       object mnuToolsGlyphs: TMenuItem
         Caption = 'Glyphs &Database'
         OnClick = mnuToolsGlyphsClick
+      end
+      object mnuToolsAliases: TMenuItem
+        Caption = 'Aliases'
+        OnClick = mnuToolsAliasesClick
       end
       object Separator2: TMenuItem
         Caption = '-'
@@ -2915,5 +2938,24 @@ object frmMain: TfrmMain
       Caption = 'Paste Text from the Clipboard'
       OnExecute = actPasteExecute
     end
+  end
+  object ImageList1: TImageList
+    Left = 65
+    Top = 149
+    Bitmap = {
+      4C7A0100000010000000100000006B0100000000000078DAD592B1ABC1611486
+      15198845299B41D9A42C3218482C9814934D9964F60718980D12A5845916C260
+      3220290326440A2B833C3767B8DD5BF7D6EF8EF7ADB7F3F57D3DA7D3FB1DF859
+      CBE592C56221DE6C36FC554EA7936C362BF6F97C7FE693C9A4D4D7EB452C16FB
+      777C2814C2EFF78B53A99422A6DD6EB35AADE8F57A542A15068381E45FABD568
+      341A6CB75B3A9DCE8F6CBFDF47AD5663341AC52A950ABD5E8FC16040A3D1A0D5
+      6AE55EA7D3319FCFBFB1BBDD0EB3D94C381C96EA72B9F0783CD8ED762C160B6E
+      B71BAFD78BC96422180C62B55AB95EAF9FFCE974623A9DF27C3ED9EFF78CC763
+      86C321CD6653E61E8D469CCF67797B3C1ECC66332E97CBAF39D86C3699FFABDF
+      FD94AA5EAF532E9729954A1C0E07229188FCA352A5D369D6EB350E87836EB74B
+      3C1EE776BB2962EFF73BD16894C96442201090F33B876AB5AA883F1E8FB233F9
+      7C9E4422412693915A2C1615CFFFCEB8D56A91CBE528140AB253BFE9031DE85D
+      40
+    }
   end
 end

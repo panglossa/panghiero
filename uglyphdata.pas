@@ -40,7 +40,7 @@ height:=StrToInt(tmp[3]);
 tmp:= tmpcode.Split(',');
 code:=TStringList.create;
 for i:=0 to length(tmp)-1 do begin
-  code.add(tmp[i]);
+  code.add(trim(tmp[i]));
   end;
 end;
 
@@ -55,8 +55,10 @@ var
 
 begin
 result:=false;
+//candidate:=trim(candidate);
 for x:=0 to code.Count-1 do begin
-  if (code[x]=candidate) then begin
+  if ((code[x]<>'')and(candidate<>'')and(code[x]=candidate)) then begin
+    //writeln('***CODE: ' + code[x] + '*** --- CANDIDATE: ' + candidate + '***');
     result:=true;
     //Break;
     end;

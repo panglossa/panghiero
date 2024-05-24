@@ -30,6 +30,13 @@ type
     BitBtn6: TBitBtn;
     cboGardiner: TComboBox;
     FileListBox1: TFileListBox;
+    ImageList1: TImageList;
+    MenuItem1: TMenuItem;
+    mnuEditDirectionLtR: TMenuItem;
+    mnuEditDirectionRtL: TMenuItem;
+    Separator6: TMenuItem;
+    MenuItem2: TMenuItem;
+    mnuToolsAliases: TMenuItem;
     Separator5: TMenuItem;
     mnuViewMainToolBar: TMenuItem;
     pnlToolBar: TPanel;
@@ -89,6 +96,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure gbGlyphsListClick(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure mnuEditDirectionLtRClick(Sender: TObject);
+    procedure mnuEditDirectionRtLClick(Sender: TObject);
+    procedure mnuToolsAliasesClick(Sender: TObject);
     procedure mnuViewMainToolBarClick(Sender: TObject);
     procedure mnuFileSaveImageAsClick(Sender: TObject);
     procedure mnuFileSaveTextAsClick(Sender: TObject);
@@ -128,7 +138,7 @@ var
 
 implementation
 uses
-  ufrmabout, ufrmglyphs, ufrmoptions;
+  ufrmabout, ufrmglyphs, ufrmoptions, ufrmalias;
 {$R *.lfm}
 
 { TfrmMain }
@@ -148,7 +158,8 @@ txtMainEditor.lines.SaveToFile('default.txt');
 bmp:=texttoimage(txtMainEditor.Text);
 //imgMainDisplay.Canvas.CopyRect(bmp.canvas.ClipRect, bmp.canvas, bmp.canvas.ClipRect);
 //imgMainDisplay.Picture.assign(bmp);// loadfromfile('tmp.bmp');
-imgMainDisplay.Picture.loadfromfile('tmp.bmp');
+//imgMainDisplay.Picture.loadfromfile('tmp.bmp');
+imgMainDisplay.Picture.Bitmap:=bmp;
 imgMainDisplay.Picture.SaveToFile('default.png');
 screen.Cursor:=crDefault;
 //txtMainEditor.SetFocus;
@@ -168,6 +179,27 @@ end;
 procedure TfrmMain.Image2Click(Sender: TObject);
 begin
 
+end;
+
+procedure TfrmMain.mnuEditDirectionLtRClick(Sender: TObject);
+begin
+mnuEditDirectionLtR.Checked:=true;
+mnuEditDirectionRtL.Checked:=false;
+ini.WriteString('Graphic Options', 'Text Direction', 'Left to Right');
+mnuViewUpdateClick(self);
+end;
+
+procedure TfrmMain.mnuEditDirectionRtLClick(Sender: TObject);
+begin
+mnuEditDirectionLtR.Checked:=false;
+mnuEditDirectionRtL.Checked:=true;
+ini.WriteString('Graphic Options', 'Text Direction', 'Right to Left');
+mnuViewUpdateClick(self);
+end;
+
+procedure TfrmMain.mnuToolsAliasesClick(Sender: TObject);
+begin
+frmAliases.showmodal;
 end;
 
 procedure TfrmMain.mnuViewMainToolBarClick(Sender: TObject);
@@ -435,6 +467,16 @@ procedure TfrmMain.FormShow(Sender: TObject);
 begin
 txtMainEditor.font.Name:=ini.ReadString('Editor Font', 'Name', 'Aegyptus');
 txtMainEditor.font.Size:=ini.ReadInteger('Editor Font', 'Size', 20);
+if (ini.ReadString('Graphic Options', 'Text Direction', 'Left to Right')='Right to Left') then begin
+  mnuEditDirectionLtR.Checked:=false;
+  mnuEditDirectionRtL.Checked:=true;
+  ini.WriteString('Graphic Options', 'Text Direction', 'Right to Left');
+  end else begin
+  mnuEditDirectionLtR.Checked:=true;
+  mnuEditDirectionRtL.Checked:=false;
+  ini.WriteString('Graphic Options', 'Text Direction', 'Left to Right');
+  end;
+
 if (ini.readstring('Editor Layout', 'Orientation', 'horizontal')='horizontal') then begin
   mnuViewHorizontalClick(self);
   end else begin
@@ -532,7 +574,8 @@ if (cboGardiner.ItemIndex>27) then begin
       btn.Hint:=signlist[i];
       btn.ShowHint:=true;
       btn.OnClick:=@glyphbuttonClick;
-      btn.AutoSize:=true;
+      btn.Width:=btn.Picture.Bitmap.Canvas.Width;
+      //btn.AutoSize:=true;
       btn.Parent:=pnlGlyphs;
       end;
     end;
@@ -556,7 +599,8 @@ if (cboGardiner.ItemIndex>27) then begin
       btn.Hint:=bl;
       btn.ShowHint:=true;
       btn.OnClick:=@glyphbuttonClick;
-      btn.AutoSize:=true;
+      btn.Width:=btn.Picture.Bitmap.Canvas.Width;
+      //btn.AutoSize:=true;
       btn.Parent:=pnlGlyphs;
       end;
     end;
@@ -794,24 +838,24 @@ if (not FileExists('img/hiero_A1.png')) then begin
   //writeln('[!] ERROR: Image files NOT FOUND!');
   halt(1);
   end;
-if (FileExists('glyphdata.csv')) then begin
+if (FileExists('glyphdata.dat')) then begin
    //writeln('Loading glyph data...');
-   rawdata.LoadFromFile('glyphdata.csv');
+   rawdata.LoadFromFile('glyphdata.dat');
    end else begin
-   //writeln('[!] Data file glyphdata.csv NOT FOUND!');
+   //writeln('[!] Data file glyphdata.dat NOT FOUND!');
    //writeln('Trying to load alternate data file...');
-   if (FileExists('altglyphdata.csv')) then begin
+   if (FileExists('altglyphdata.dat')) then begin
       //writeln('Loading glyph data from alternate file...');
-      rawdata.LoadFromFile('altglyphdata.csv');
+      rawdata.LoadFromFile('altglyphdata.dat');
       end else begin
-      //writeln('[!] Alternate data file altglyphdata.csv NOT FOUND!');
+      //writeln('[!] Alternate data file altglyphdata.dat NOT FOUND!');
       //writeln('Trying to generate alternate data file from image files...');
       j:=builddatafile;
-      if (FileExists('altglyphdata.csv')) then begin
+      if (FileExists('altglyphdata.dat')) then begin
          //writeln('Loading glyph data from alternate file...');
-         rawdata.LoadFromFile('altglyphdata.csv');
+         rawdata.LoadFromFile('altglyphdata.dat');
          end else begin
-         //writeln('[!] Alternate data file altglyphdata.csv NOT FOUND!');
+         //writeln('[!] Alternate data file altglyphdata.dat NOT FOUND!');
          halt(1);
          end;
       end;
@@ -1053,7 +1097,7 @@ for f:=0 to files.count-1 do begin
   files[f]:=StringReplace(files[f], 'hiero_', '', [rfReplaceAll]);
   datafile.add(files[f] + '||' + inttostr(glyph.Width) + '|' + inttostr(glyph.Height));
   end;
-datafile.SaveToFile('altglyphdata.csv');
+datafile.SaveToFile('altglyphdata.dat');
 result:=files.Count;
 end;
 end.
